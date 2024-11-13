@@ -21,7 +21,7 @@ def display_image():
 tab1, tab2 = st.tabs(["Slides", "Other Content"])
 
 with tab1:
-    st.title("Lecture Slides")
+
 
     # Arrange 'Start', 'Previous', 'Next', and 'Go to' dropdown in a row
     col1, col2, col3, col4 = st.columns([1, 1, 1, 2])
