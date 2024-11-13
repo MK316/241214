@@ -1,8 +1,8 @@
 import streamlit as st
 import os
 
-# Set path to slides folder
-slides_folder = "Slides"  # Adjust this path based on your setup
+# Set path to the slides folder
+slides_folder = "./slides"  # Folder name changed to lowercase to match your setup
 slides = sorted([f for f in os.listdir(slides_folder) if f.endswith('.png')])
 
 # Initialize session state for the slide index
@@ -15,8 +15,11 @@ def update_slide_index(new_index):
         st.session_state.slide_index = new_index
 
 # Display the current slide image
-slide_path = os.path.join(slides_folder, slides[st.session_state.slide_index])
-st.image(slide_path, use_column_width=True)
+if slides:
+    slide_path = os.path.join(slides_folder, slides[st.session_state.slide_index])
+    st.image(slide_path, use_column_width=True)
+else:
+    st.warning("No slides found in the 'slides' folder.")
 
 # Navigation buttons and index input
 col1, col2, col3 = st.columns([1, 1, 2])
