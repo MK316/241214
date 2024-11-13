@@ -2,7 +2,7 @@ import streamlit as st
 import os
 
 # Set path to the slides folder
-slides_folder = "./slides"  # Folder name changed to lowercase to match your setup
+slides_folder = "./slides"  # Folder name is in lowercase
 slides = sorted([f for f in os.listdir(slides_folder) if f.endswith('.png')])
 
 # Initialize session state for the slide index
@@ -14,7 +14,7 @@ def update_slide_index(new_index):
     if 0 <= new_index < len(slides):
         st.session_state.slide_index = new_index
 
-# Display the current slide image
+# Display the current slide image if slides are available
 if slides:
     slide_path = os.path.join(slides_folder, slides[st.session_state.slide_index])
     st.image(slide_path, use_column_width=True)
@@ -29,6 +29,7 @@ with col1:
     if st.button("Previous"):
         if st.session_state.slide_index > 0:
             update_slide_index(st.session_state.slide_index - 1)
+            st.experimental_rerun()  # Force rerun to update image immediately
         else:
             st.warning("This is the first page of the slides.")
 
@@ -37,6 +38,7 @@ with col2:
     if st.button("Next"):
         if st.session_state.slide_index < len(slides) - 1:
             update_slide_index(st.session_state.slide_index + 1)
+            st.experimental_rerun()  # Force rerun to update image immediately
         else:
             st.warning("This is the end of the slide.")
 
@@ -47,6 +49,7 @@ with col3:
     
     if go_to_clicked:
         update_slide_index(selected_index - 1)  # Adjust for zero-based index
+        st.experimental_rerun()  # Force rerun to update image immediately
 
 # Display slide information
 st.write(f"Slide {st.session_state.slide_index + 1} of {len(slides)}")
