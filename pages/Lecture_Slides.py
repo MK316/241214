@@ -6,7 +6,7 @@ import os
 st.markdown("""
     <style>
     .stSelectbox div[data-baseweb="select"] {
-        margin-top: -50px;  /* Adjust this value to align with the buttons */
+        margin-top: -20px;  /* Adjust this value to align with the buttons */
     }
     </style>
     """, unsafe_allow_html=True)
