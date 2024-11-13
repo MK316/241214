@@ -27,7 +27,7 @@ def display_image():
     st.image(image, caption=f"Slide {st.session_state.slide_index + 1} of {num_slides}")
 
 # Create tabs
-tab1, tab2 = st.tabs(["Slides", "Other Content"])
+tab1, tab2 = st.tabs(["Slides", "Useful Platforms"])
 
 with tab1:
 
