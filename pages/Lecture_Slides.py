@@ -23,7 +23,7 @@ tab1, tab2 = st.tabs(["Slides", "Other Content"])
 with tab1:
 
 
-    # Arrange 'Start', 'Previous', 'Next', and 'Go to' dropdown in a row
+    # Arrange 'Start', 'Previous', 'Next', and 'Slide Selector' in a single row
     col1, col2, col3, col4 = st.columns([1, 1, 1, 2])
     
     with col1:
@@ -33,8 +33,7 @@ with tab1:
     with col3:
         next_clicked = st.button("▶️ Next", key="next", help="Go to the next slide")
     with col4:
-        slide_number = st.selectbox("Go to slide:", options=[f"Slide {i + 1}" for i in range(num_slides)])
-        go_to_clicked = st.button("Go to")
+        slide_number = st.selectbox("", options=[f"Slide {i + 1}" for i in range(num_slides)], key="slide_select")
 
     # Button actions
     if start_clicked:
@@ -52,9 +51,10 @@ with tab1:
         else:
             st.warning("This is the end of the slides.")
 
-    if go_to_clicked:
-        # Set slide index based on the selected dropdown option
-        st.session_state.slide_index = int(slide_number.split()[-1]) - 1
+    # Update the slide index if the user selects a slide directly
+    selected_slide_index = int(slide_number.split()[-1]) - 1
+    if selected_slide_index != st.session_state.slide_index:
+        st.session_state.slide_index = selected_slide_index
 
     # Display the image
     display_image()
