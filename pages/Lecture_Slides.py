@@ -23,37 +23,38 @@ tab1, tab2 = st.tabs(["Slides", "Other Content"])
 with tab1:
     st.title("Lecture Slides")
 
-    # Arrange 'Start', 'Next', 'Previous', and 'Go to' controls in a row
+    # Arrange 'Start', 'Previous', 'Next', and 'Go to' dropdown in a row
     col1, col2, col3, col4 = st.columns([1, 1, 1, 2])
     
     with col1:
-        start_clicked = st.button("⛳ Start", key="start", help="Reset score and start over")
+        start_clicked = st.button("⛳ Start", key="start", help="Reset to the first slide")
     with col2:
-        next_word_clicked = st.button("▶️ Next", key="next", help="Get the next slide")
+        previous_clicked = st.button("◀️ Previous", key="previous", help="Go back to the previous slide")
     with col3:
-        previous_word_clicked = st.button("◀️ Previous", key="previous", help="Go back to the previous slide")
+        next_clicked = st.button("▶️ Next", key="next", help="Go to the next slide")
     with col4:
-        slide_number = st.number_input("Go to slide number:", min_value=1, max_value=num_slides, value=st.session_state.slide_index + 1, step=1)
+        slide_number = st.selectbox("Go to slide:", options=[f"Slide {i + 1}" for i in range(num_slides)])
         go_to_clicked = st.button("Go to")
 
     # Button actions
     if start_clicked:
         st.session_state.slide_index = 0
 
-    if next_word_clicked:
+    if previous_clicked:
+        if st.session_state.slide_index > 0:
+            st.session_state.slide_index -= 1
+        else:
+            st.warning("This is the first slide.")
+
+    if next_clicked:
         if st.session_state.slide_index < num_slides - 1:
             st.session_state.slide_index += 1
         else:
             st.warning("This is the end of the slides.")
 
-    if previous_word_clicked:
-        if st.session_state.slide_index > 0:
-            st.session_state.slide_index -= 1
-        else:
-            st.warning("This is the first slide of the slides.")
-
     if go_to_clicked:
-        st.session_state.slide_index = slide_number - 1
+        # Set slide index based on the selected dropdown option
+        st.session_state.slide_index = int(slide_number.split()[-1]) - 1
 
     # Display the image
     display_image()
