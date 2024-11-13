@@ -2,16 +2,17 @@ import streamlit as st
 import os
 
 # Set path to slides folder
-slides_folder = "slides"  # Adjust this path based on your setup
+slides_folder = "Slides"  # Adjust this path based on your setup
 slides = sorted([f for f in os.listdir(slides_folder) if f.endswith('.png')])
 
 # Initialize session state for the slide index
 if "slide_index" not in st.session_state:
     st.session_state.slide_index = 0
 
-# Function to update the slide index
+# Function to update the slide index and re-render
 def update_slide_index(new_index):
-    st.session_state.slide_index = new_index
+    if 0 <= new_index < len(slides):
+        st.session_state.slide_index = new_index
 
 # Display the current slide image
 slide_path = os.path.join(slides_folder, slides[st.session_state.slide_index])
