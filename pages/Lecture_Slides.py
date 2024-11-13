@@ -17,27 +17,46 @@ def display_image():
     image = Image.open(slide_path)
     st.image(image, caption=f"Slide {st.session_state.slide_index + 1} of {num_slides}")
 
-# Button actions
-if st.button("Start"):
-    st.session_state.slide_index = 0
+# Create tabs
+tab1, tab2 = st.tabs(["Slides", "Other Content"])
 
-if st.button("Next"):
-    if st.session_state.slide_index < num_slides - 1:
-        st.session_state.slide_index += 1
-    else:
-        st.warning("This is the end of the slide.")
+with tab1:
+    st.title("Lecture Slides")
 
-if st.button("Previous"):
-    if st.session_state.slide_index > 0:
-        st.session_state.slide_index -= 1
-    else:
-        st.warning("This is the first page of the slides.")
+    # Arrange 'Start', 'Next', 'Previous', and 'Go to' controls in a row
+    col1, col2, col3, col4 = st.columns([1, 1, 1, 2])
+    
+    with col1:
+        start_clicked = st.button("⛳ Start", key="start", help="Reset score and start over")
+    with col2:
+        next_word_clicked = st.button("▶️ Next", key="next", help="Get the next slide")
+    with col3:
+        previous_word_clicked = st.button("◀️ Previous", key="previous", help="Go back to the previous slide")
+    with col4:
+        slide_number = st.number_input("Go to slide number:", min_value=1, max_value=num_slides, value=st.session_state.slide_index + 1, step=1)
+        go_to_clicked = st.button("Go to")
 
-# Input for direct slide navigation
-slide_number = st.number_input("Go to slide number:", min_value=1, max_value=num_slides, value=st.session_state.slide_index + 1, step=1)
+    # Button actions
+    if start_clicked:
+        st.session_state.slide_index = 0
 
-if st.button("Go to"):
-    st.session_state.slide_index = slide_number - 1
+    if next_word_clicked:
+        if st.session_state.slide_index < num_slides - 1:
+            st.session_state.slide_index += 1
+        else:
+            st.warning("This is the end of the slides.")
 
-# Display the image
-display_image()
+    if previous_word_clicked:
+        if st.session_state.slide_index > 0:
+            st.session_state.slide_index -= 1
+        else:
+            st.warning("This is the first slide of the slides.")
+
+    if go_to_clicked:
+        st.session_state.slide_index = slide_number - 1
+
+    # Display the image
+    display_image()
+
+with tab2:
+    st.write("This is the content for the second tab.")
