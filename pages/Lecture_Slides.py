@@ -1,55 +1,43 @@
 import streamlit as st
+from PIL import Image
 import os
 
-# Set path to the slides folder
-slides_folder = "./slides"  # Folder name is in lowercase
-slides = sorted([f for f in os.listdir(slides_folder) if f.endswith('.png')])
+# Set up the path to the slides folder
+slides_path = "slides"  # Ensure this is correct relative to your app's location
+slide_files = sorted([f for f in os.listdir(slides_path) if f.endswith(".png")])
+num_slides = len(slide_files)
 
-# Initialize session state for the slide index
+# Initialize session state variables if they do not exist
 if "slide_index" not in st.session_state:
+    st.session_state.slide_index = 0  # Start with the first slide
+
+# Function to load and display the image based on the current index
+def display_image():
+    slide_path = os.path.join(slides_path, slide_files[st.session_state.slide_index])
+    image = Image.open(slide_path)
+    st.image(image, caption=f"Slide {st.session_state.slide_index + 1} of {num_slides}")
+
+# Button actions
+if st.button("Start"):
     st.session_state.slide_index = 0
 
-# Function to update the slide index and re-render
-def update_slide_index(new_index):
-    if 0 <= new_index < len(slides):
-        st.session_state.slide_index = new_index
+if st.button("Next"):
+    if st.session_state.slide_index < num_slides - 1:
+        st.session_state.slide_index += 1
+    else:
+        st.warning("This is the end of the slide.")
 
-# Display the current slide image if slides are available
-if slides:
-    slide_path = os.path.join(slides_folder, slides[st.session_state.slide_index])
-    st.image(slide_path, use_column_width=True)
-else:
-    st.warning("No slides found in the 'slides' folder.")
+if st.button("Previous"):
+    if st.session_state.slide_index > 0:
+        st.session_state.slide_index -= 1
+    else:
+        st.warning("This is the first page of the slides.")
 
-# Navigation buttons and index input
-col1, col2, col3 = st.columns([1, 1, 2])
+# Input for direct slide navigation
+slide_number = st.number_input("Go to slide number:", min_value=1, max_value=num_slides, value=st.session_state.slide_index + 1, step=1)
 
-# Previous button
-with col1:
-    if st.button("Previous"):
-        if st.session_state.slide_index > 0:
-            update_slide_index(st.session_state.slide_index - 1)
-            st.experimental_rerun()  # Force rerun to update image immediately
-        else:
-            st.warning("This is the first page of the slides.")
+if st.button("Go to"):
+    st.session_state.slide_index = slide_number - 1
 
-# Next button
-with col2:
-    if st.button("Next"):
-        if st.session_state.slide_index < len(slides) - 1:
-            update_slide_index(st.session_state.slide_index + 1)
-            st.experimental_rerun()  # Force rerun to update image immediately
-        else:
-            st.warning("This is the end of the slide.")
-
-# Go to specific slide
-with col3:
-    selected_index = st.number_input("Go to slide number:", min_value=1, max_value=len(slides), value=st.session_state.slide_index + 1, step=1)
-    go_to_clicked = st.button("Go to")
-    
-    if go_to_clicked:
-        update_slide_index(selected_index - 1)  # Adjust for zero-based index
-        st.experimental_rerun()  # Force rerun to update image immediately
-
-# Display slide information
-st.write(f"Slide {st.session_state.slide_index + 1} of {len(slides)}")
+# Display the image
+display_image()
