@@ -2,6 +2,15 @@ import streamlit as st
 from PIL import Image
 import os
 
+# CSS to adjust the alignment of the dropdown to match the buttons
+st.markdown("""
+    <style>
+    .stSelectbox div[data-baseweb="select"] {
+        margin-top: -12px;  /* Adjust this value to align with the buttons */
+    }
+    </style>
+    """, unsafe_allow_html=True)
+
 # Set up the path to the slides folder
 slides_path = "slides"  # Ensure this is correct relative to your app's location
 slide_files = sorted([f for f in os.listdir(slides_path) if f.endswith(".png")])
@@ -21,7 +30,7 @@ def display_image():
 tab1, tab2 = st.tabs(["Slides", "Other Content"])
 
 with tab1:
-
+    st.title("Lecture Slides")
 
     # Arrange 'Start', 'Previous', 'Next', and 'Slide Selector' in a single row
     col1, col2, col3, col4 = st.columns([1, 1, 1, 2])
