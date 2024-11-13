@@ -26,7 +26,7 @@ def display_image():
     image = Image.open(slide_path)
     
     # Set your desired width for resizing
-    desired_width = 1024  # Adjust this value as needed
+    desired_width = 900  # Adjust this value as needed
     aspect_ratio = image.height / image.width
     new_height = int(desired_width * aspect_ratio)
     resized_image = image.resize((desired_width, new_height))
