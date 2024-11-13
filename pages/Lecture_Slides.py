@@ -2,8 +2,8 @@ import streamlit as st
 import os
 
 # Set path to slides folder
-slides_folder = "./slides"  # Adjust this path as needed based on your setup
-slides = sorted([f for f in os.listdir(slides_folder) if f.endswith('.jpg')])
+slides_folder = "slides"  # Adjust this path as needed based on your setup
+slides = sorted([f for f in os.listdir(slides_folder) if f.endswith('.png')])
 
 # Initialize session state for the slide index
 if "slide_index" not in st.session_state:
