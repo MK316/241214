@@ -36,35 +36,33 @@ with tab1:
     col1, col2, col3, col4 = st.columns([1, 1, 1, 2])
     
     with col1:
-        start_clicked = st.button("⛳ Start", key="start", help="Reset to the first slide")
+        if st.button("⛳ Start", key="start", help="Reset to the first slide"):
+            st.session_state.slide_index = 0
+
     with col2:
-        previous_clicked = st.button("◀️ Previous", key="previous", help="Go back to the previous slide")
+        if st.button("◀️ Previous", key="previous", help="Go back to the previous slide"):
+            if st.session_state.slide_index > 0:
+                st.session_state.slide_index -= 1
+            else:
+                st.warning("This is the first slide.")
+
     with col3:
-        next_clicked = st.button("▶️ Next", key="next", help="Go to the next slide")
+        if st.button("▶️ Next", key="next", help="Go to the next slide"):
+            if st.session_state.slide_index < num_slides - 1:
+                st.session_state.slide_index += 1
+            else:
+                st.warning("This is the end of the slides.")
+
     with col4:
-        slide_number = st.selectbox("", options=[f"Slide {i + 1}" for i in range(num_slides)], 
-                                    index=st.session_state.slide_index, key="slide_select")
+        # Display slide selector dropdown
+        selected_slide = st.selectbox("",
+                                      options=[f"Slide {i + 1}" for i in range(num_slides)],
+                                      index=st.session_state.slide_index)
 
-    # Button actions
-    if start_clicked:
-        st.session_state.slide_index = 0
-
-    elif previous_clicked:
-        if st.session_state.slide_index > 0:
-            st.session_state.slide_index -= 1
-        else:
-            st.warning("This is the first slide.")
-
-    elif next_clicked:
-        if st.session_state.slide_index < num_slides - 1:
-            st.session_state.slide_index += 1
-        else:
-            st.warning("This is the end of the slides.")
-
-    # Update the slide index if the user selects a slide directly from the dropdown
-    selected_slide_index = int(slide_number.split()[-1]) - 1
-    if selected_slide_index != st.session_state.slide_index:
-        st.session_state.slide_index = selected_slide_index
+        # Update slide index if dropdown selection changes
+        selected_slide_index = int(selected_slide.split()[-1]) - 1
+        if selected_slide_index != st.session_state.slide_index:
+            st.session_state.slide_index = selected_slide_index
 
     # Display the image
     display_image()
