@@ -42,25 +42,26 @@ with tab1:
     with col3:
         next_clicked = st.button("▶️ Next", key="next", help="Go to the next slide")
     with col4:
-        slide_number = st.selectbox("", options=[f"Slide {i + 1}" for i in range(num_slides)], key="slide_select")
+        slide_number = st.selectbox("", options=[f"Slide {i + 1}" for i in range(num_slides)], 
+                                    index=st.session_state.slide_index, key="slide_select")
 
     # Button actions
     if start_clicked:
         st.session_state.slide_index = 0
 
-    if previous_clicked:
+    elif previous_clicked:
         if st.session_state.slide_index > 0:
             st.session_state.slide_index -= 1
         else:
             st.warning("This is the first slide.")
 
-    if next_clicked:
+    elif next_clicked:
         if st.session_state.slide_index < num_slides - 1:
             st.session_state.slide_index += 1
         else:
             st.warning("This is the end of the slides.")
 
-    # Update the slide index if the user selects a slide directly
+    # Update the slide index if the user selects a slide directly from the dropdown
     selected_slide_index = int(slide_number.split()[-1]) - 1
     if selected_slide_index != st.session_state.slide_index:
         st.session_state.slide_index = selected_slide_index
