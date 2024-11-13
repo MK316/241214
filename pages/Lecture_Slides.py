@@ -9,6 +9,10 @@ slides = sorted([f for f in os.listdir(slides_folder) if f.endswith('.png')])
 if "slide_index" not in st.session_state:
     st.session_state.slide_index = 0
 
+# Function to update the slide index
+def update_slide_index(new_index):
+    st.session_state.slide_index = new_index
+
 # Display the current slide image
 slide_path = os.path.join(slides_folder, slides[st.session_state.slide_index])
 st.image(slide_path, use_column_width=True)
@@ -20,7 +24,7 @@ col1, col2, col3 = st.columns([1, 1, 2])
 with col1:
     if st.button("Previous"):
         if st.session_state.slide_index > 0:
-            st.session_state.slide_index -= 1
+            update_slide_index(st.session_state.slide_index - 1)
         else:
             st.warning("This is the first page of the slides.")
 
@@ -28,7 +32,7 @@ with col1:
 with col2:
     if st.button("Next"):
         if st.session_state.slide_index < len(slides) - 1:
-            st.session_state.slide_index += 1
+            update_slide_index(st.session_state.slide_index + 1)
         else:
             st.warning("This is the end of the slide.")
 
@@ -38,7 +42,7 @@ with col3:
     go_to_clicked = st.button("Go to")
     
     if go_to_clicked:
-        st.session_state.slide_index = selected_index - 1  # Adjust for zero-based index
+        update_slide_index(selected_index - 1)  # Adjust for zero-based index
 
 # Display slide information
 st.write(f"Slide {st.session_state.slide_index + 1} of {len(slides)}")
