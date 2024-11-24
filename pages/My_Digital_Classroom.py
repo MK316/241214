@@ -7,13 +7,17 @@ urls = {
     "Project 3": "https://github.com/yourusername/project3"
 }
 
-# Create radio buttons to select the project
-project = st.radio("Choose a GitHub project:", list(urls.keys()))
+# Create tabs for each project
+tab1, tab2, tab3 = st.tabs(["Project 1", "Project 2", "Project 3"])
 
-# Button to open the selected project's GitHub page
-if st.button('Open GitHub Project'):
-    # JavaScript to open a new tab with the selected project's URL
-    js = f"window.open('{urls[project]}')"  # JavaScript to open a new tab
-    st.components.v1.html(f"<script>{js}</script>", height=0, width=0)
+with tab1:
+    st.markdown(f"### Project 1")
+    st.markdown(f"[Visit Project 1 on GitHub]({urls['Project 1']})")
 
-st.write(f"You selected: {project}")
+with tab2:
+    st.markdown(f"### Project 2")
+    st.markdown(f"[Visit Project 2 on GitHub]({urls['Project 2']})")
+
+with tab3:
+    st.markdown(f"### Project 3")
+    st.markdown(f"[Visit Project 3 on GitHub]({urls['Project 3']})")
