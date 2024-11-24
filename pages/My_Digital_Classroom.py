@@ -1,15 +1,19 @@
 import streamlit as st
 
-# JavaScript to automatically open a new tab
-def auto_open_url(url):
-    js = f"<script>window.open('{url}');</script>"
-    st.components.v1.html(js, height=0, width=0)
+# Define the GitHub URLs
+urls = {
+    "Project 1": "https://github.com/MK316/F2024/blob/main/README.md",
+    "Project 2": "https://github.com/yourusername/project2",
+    "Project 3": "https://github.com/yourusername/project3"
+}
 
-# URL you want to open
-github_url = "https://github.com/yourusername/yourrepository"
+# Create radio buttons to select the project
+project = st.radio("Choose a GitHub project:", list(urls.keys()))
 
-# Function call to open the URL automatically
-auto_open_url(github_url)
+# Button to open the selected project's GitHub page
+if st.button('Open GitHub Project'):
+    # JavaScript to open a new tab with the selected project's URL
+    js = f"window.open('{urls[project]}')"  # JavaScript to open a new tab
+    st.components.v1.html(f"<script>{js}</script>", height=0, width=0)
 
-st.title('Page Title')
-st.write("This page will automatically open a GitHub page when loaded.")
+st.write(f"You selected: {project}")
