@@ -10,3 +10,5 @@ st.image(img_url, use_column_width=True)
 
 st.markdown("+ Interested in digital literacy training for prospective English teachers")
 st.caption("Digital Literacy & English Education (Spring 2023, Spring 2024)")
+
+st.markdown("+ Keywords: **Teacher-empowered Digital Literacy**")
