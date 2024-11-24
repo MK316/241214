@@ -51,12 +51,11 @@ def main():
 
     # Additional Content tab (optional)
     with tabs[4]:
-        st.subheader("2022")
+        st.subheader("Started to learn Python coding since Feb. 2022")
         # Placeholder URL for additional content if needed
         # Uncomment and update the URL if you have content for this tab
-        github_url = 'https://github.com/MK316'
-        github_content = fetch_github_readme(github_url)
-        st.markdown(github_content, unsafe_allow_html=True)
+
+        st.markdown("[Github]('https://github.com/MK316')")
 
 
 if __name__ == "__main__":
