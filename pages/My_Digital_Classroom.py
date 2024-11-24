@@ -15,7 +15,7 @@ def main():
     st.caption('My digital classroom: Github platform')
 
     # Set up tabs
-    tabs = st.tabs(["📘 Fall 2024", "📒 Spring 2024", "📘 Fall 2023", "📒 Spring 2023", "〽️ Additional Content"])
+    tabs = st.tabs(["📗 Fall 2024", "📒 Spring 2024", "📗 Fall 2023", "📒 Spring 2023", "〽️ Additional Content"])
 
     # Fall 2024 content
     with tabs[0]:
