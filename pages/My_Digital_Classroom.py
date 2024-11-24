@@ -55,7 +55,7 @@ def main():
         # Placeholder URL for additional content if needed
         # Uncomment and update the URL if you have content for this tab
         github_url = 'https://github.com/MK316'
-        github_content = fetch_github_readme(additional_url)
+        github_content = fetch_github_readme(github_url)
         st.markdown(github_content, unsafe_allow_html=True)
 
 
