@@ -1,7 +1,6 @@
 import streamlit as st
 import matplotlib.pyplot as plt
 from collections import Counter
-from mpl_toolkits.mplot3d import Axes3D
 
 # Initialize session state for survey responses if not already done
 if 'mc_responses' not in st.session_state:
@@ -33,12 +32,9 @@ with tab3:
         # Create subplots for each question's results
         fig, axs = plt.subplots(1, 3, figsize=(18, 6))
 
-        # Pie chart for Question 1 (3D)
-        ax1 = fig.add_subplot(131, projection='3d')
-        sizes = list(counter1.values())
-        labels = list(counter1.keys())
-        ax1.pie(sizes, labels=labels, autopct='%1.1f%%', startangle=90)
-        ax1.set_title("Favorite Colors")
+        # Pie chart for Question 1
+        axs[0].pie(counter1.values(), labels=counter1.keys(), autopct='%1.1f%%', startangle=90)
+        axs[0].set_title("Favorite Colors")
 
         # Bar plot for Question 2
         axs[1].bar(counter2.keys(), counter2.values(), color='g')
