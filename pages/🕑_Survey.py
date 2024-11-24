@@ -1,6 +1,7 @@
 import streamlit as st
 import matplotlib.pyplot as plt
 from collections import Counter
+from mpl_toolkits.mplot3d import Axes3D
 
 # Initialize session state for survey responses if not already done
 if 'mc_responses' not in st.session_state:
@@ -30,26 +31,27 @@ with tab3:
         counter3 = Counter([response[2] for response in st.session_state.mc_responses])
 
         # Create subplots for each question's results
-        fig, ax = plt.subplots(3, 1, figsize=(8, 12))
-        
-        # Plot for Question 1
-        ax[0].bar(counter1.keys(), counter1.values(), color='b')
-        ax[0].set_title("Favorite Colors")
-        ax[0].set_ylabel("Counts")
+        fig, axs = plt.subplots(1, 3, figsize=(18, 6))
 
-        # Plot for Question 2
-        ax[1].bar(counter2.keys(), counter2.values(), color='g')
-        ax[1].set_title("Coffee or Tea")
-        ax[1].set_ylabel("Counts")
+        # Pie chart for Question 1 (3D)
+        ax1 = fig.add_subplot(131, projection='3d')
+        sizes = list(counter1.values())
+        labels = list(counter1.keys())
+        ax1.pie(sizes, labels=labels, autopct='%1.1f%%', startangle=90)
+        ax1.set_title("Favorite Colors")
 
-        # Plot for Question 3
-        ax[2].bar(counter3.keys(), counter3.values(), color='r')
-        ax[2].set_title("Preference for Working from Home")
-        ax[2].set_ylabel("Counts")
+        # Bar plot for Question 2
+        axs[1].bar(counter2.keys(), counter2.values(), color='g')
+        axs[1].set_title("Coffee or Tea")
+        axs[1].set_ylabel("Counts")
+
+        # Bar plot for Question 3
+        axs[2].bar(counter3.keys(), counter3.values(), color='r')
+        axs[2].set_title("Preference for Working from Home")
+        axs[2].set_ylabel("Counts")
 
         # Show the plots
         plt.tight_layout()
         st.pyplot(fig)
     else:
         st.write("No responses yet.")
-
