@@ -1,18 +1,13 @@
 import streamlit as st
-from wordcloud import WordCloud
 import matplotlib.pyplot as plt
+from collections import Counter
 
-# Initialize session states if not already initialized
+# Initialize session state for survey responses if not already done
 if 'mc_responses' not in st.session_state:
     st.session_state.mc_responses = []
-if 'text_responses' not in st.session_state:
-    st.session_state.text_responses = []
 
 def store_mc_response(answers):
     st.session_state.mc_responses.append(answers)
-
-def store_text_response(text):
-    st.session_state.text_responses.append(text)
 
 # Define the app structure with tabs
 tab1, tab2, tab3, tab4 = st.tabs(["Survey 1", "Survey 2", "Results 1", "Results 2"])
@@ -26,31 +21,35 @@ with tab1:
         store_mc_response((q1, q2, q3))
         st.success("Survey 1 submitted successfully!")
 
-with tab2:
-    st.header("Survey 2 - Text Input for Word Cloud")
-    text_response = st.text_area("What words best describe your work environment?")
-    if st.button("Submit Survey 2"):
-        store_text_response(text_response)
-        st.success("Survey 2 submitted successfully!")
-
 with tab3:
     st.header("Results of Survey 1")
     if st.session_state.mc_responses:
-        st.write("Responses collected:")
-        for response in st.session_state.mc_responses:
-            st.write(response)
-    else:
-        st.write("No responses yet.")
+        # Initialize counters for each question
+        counter1 = Counter([response[0] for response in st.session_state.mc_responses])
+        counter2 = Counter([response[1] for response in st.session_state.mc_responses])
+        counter3 = Counter([response[2] for response in st.session_state.mc_responses])
 
-with tab4:
-    st.header("Word Cloud from Survey 2 Responses")
-    if st.session_state.text_responses:
-        combined_text = " ".join(st.session_state.text_responses)
-        wordcloud = WordCloud(width=800, height=400).generate(combined_text)
-        fig, ax = plt.subplots()
-        ax.imshow(wordcloud, interpolation='bilinear')
-        ax.axis("off")
+        # Create subplots for each question's results
+        fig, ax = plt.subplots(3, 1, figsize=(8, 12))
+        
+        # Plot for Question 1
+        ax[0].bar(counter1.keys(), counter1.values(), color='b')
+        ax[0].set_title("Favorite Colors")
+        ax[0].set_ylabel("Counts")
+
+        # Plot for Question 2
+        ax[1].bar(counter2.keys(), counter2.values(), color='g')
+        ax[1].set_title("Coffee or Tea")
+        ax[1].set_ylabel("Counts")
+
+        # Plot for Question 3
+        ax[2].bar(counter3.keys(), counter3.values(), color='r')
+        ax[2].set_title("Preference for Working from Home")
+        ax[2].set_ylabel("Counts")
+
+        # Show the plots
+        plt.tight_layout()
         st.pyplot(fig)
     else:
-        st.write("No text responses yet.")
+        st.write("No responses yet.")
 
