@@ -1,3 +1,5 @@
 streamlit
 wordcloud
 matplotlib
+mpl_toolkits.mplot3d
+collections
