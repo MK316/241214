@@ -1,7 +1,7 @@
 import streamlit as st
 import seaborn as sns
 import matplotlib.pyplot as plt
-from sqlalchemy import create_engine, Table, Column, Integer, String, MetaData
+from sqlalchemy import create_engine, Table, Column, Integer, String, MetaData, select
 import pandas as pd
 
 # Initialize the database connection
@@ -23,7 +23,8 @@ def store_survey_responses(color, beverage, work_pref, environment):
 
 def get_survey_data():
     with engine.connect() as connection:
-        result = pd.read_sql(surveys.select(), connection)
+        query = select([surveys])
+        result = pd.read_sql(query, connection)
     return result
 
 # Define the app structure with tabs
@@ -48,7 +49,7 @@ with tab2:
 with tab3:
     st.header("Results of Survey 1")
     data = get_survey_data()
-    if not data.empty:
+    if not data.empty and 'color' in data.columns and data['color'].notna().any():
         fig, axs = plt.subplots(3, 1, figsize=(8, 12))
         sns.countplot(data=data, x='color', ax=axs[0], palette='viridis')
         axs[0].set_title("Favorite Colors")
@@ -64,7 +65,7 @@ with tab3:
 with tab4:
     st.header("Word Cloud from Survey 2 Responses")
     data = get_survey_data()
-    if not data.empty:
+    if not data.empty and 'environment' in data.columns and data['environment'].notna().any():
         from wordcloud import WordCloud
         combined_text = " ".join(data['environment'].dropna())
         wordcloud = WordCloud(width=800, height=400, background_color='white').generate(combined_text)
