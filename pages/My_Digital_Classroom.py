@@ -57,7 +57,7 @@ def main():
 
         st.markdown("+ [Github]('https://github.com/MK316')")
         img_url = "https://github.com/MK316/241214/raw/main/image/lady.png"
-        st.image(img_url, width = 250, caption="It would've been wise to start coding back when I could actually see the screen without squinting... (to myself)")
+        st.image(img_url, width = 300, caption="It would've been wise to start coding back when I could actually see the screen without squinting... (to myself)")
 
 
 if __name__ == "__main__":
