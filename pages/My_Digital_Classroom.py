@@ -12,7 +12,7 @@ def fetch_github_readme(url):
         return "Error: Unable to load content from GitHub."
 
 def main():
-    st.title('My Digital Classroom')
+    st.caption('My digital classroom: Github platform')
 
     # Set up tabs
     tabs = st.tabs(["〽️ Fall 2024", "〽️ Spring 2024", "〽️ Fall 2023", "〽️ Spring 2023", "〽️ Additional Content"])
