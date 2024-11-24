@@ -3,3 +3,4 @@ wordcloud
 matplotlib
 seaborn
 sqlalchemy
+gspread
