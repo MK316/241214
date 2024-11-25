@@ -2,7 +2,7 @@ import streamlit as st
 
 st.set_page_config(page_title="Welcome to Symposium session I")
 
-st.title("MK316")
+st.title("Welcome!")
 st.write("Symposium schedule: 1:30PM~3PM, 2024. 12. 14")
 st.caption("발표 관련 자료들이 업로드될 예정입니다.")
 
