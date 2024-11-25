@@ -55,6 +55,11 @@ if uploaded_file:
                 else:
                     # Randomly select a verb if none is currently selected or if user has answered
                     if st.session_state.current_verb is None or st.session_state.answered:
+                        # Ensure the current verb is in the test_verbs list
+                        if st.session_state.current_verb in st.session_state.test_verbs:
+                            st.session_state.test_verbs.remove(st.session_state.current_verb)
+
+                        # Select a new verb
                         st.session_state.current_verb = random.choice(st.session_state.test_verbs)
                         st.session_state.answered = False  # Reset for the next question
 
@@ -76,8 +81,9 @@ if uploaded_file:
 
                             if answer.lower() == correct_answer.lower():
                                 st.session_state.feedback = f"Correct: {st.session_state.current_verb} is {correct_answer}."
-                                # Remove the current verb from test_verbs
-                                st.session_state.test_verbs.remove(st.session_state.current_verb)
+                                # Remove the current verb safely
+                                if st.session_state.current_verb in st.session_state.test_verbs:
+                                    st.session_state.test_verbs.remove(st.session_state.current_verb)
                                 st.session_state.current_verb = None  # Reset for the next question
                             else:
                                 st.session_state.feedback = f"Incorrect: {st.session_state.current_verb} is {correct_answer}."
