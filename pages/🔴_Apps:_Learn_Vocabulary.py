@@ -22,6 +22,8 @@ if uploaded_file:
             st.session_state.feedback = ""
         if 'answered' not in st.session_state:
             st.session_state.answered = False  # Track whether feedback is shown
+        if 'show_next_button' not in st.session_state:
+            st.session_state.show_next_button = False  # Track whether "Next" button should appear
 
         # Step 2: Tab structure
         tab1, tab2 = st.tabs(["Select Verbs", "Practice"])
@@ -43,6 +45,8 @@ if uploaded_file:
                 st.session_state.test_verbs = st.session_state.selected_verbs.copy()
                 st.session_state.current_verb = None
                 st.session_state.feedback = ""
+                st.session_state.answered = False
+                st.session_state.show_next_button = False
                 st.success(f"Selected verbs: {st.session_state.selected_verbs}")
 
         # Tab 2: Practice
@@ -58,8 +62,9 @@ if uploaded_file:
                     # Show the current verb
                     if not st.session_state.current_verb:
                         st.session_state.current_verb = random.choice(st.session_state.test_verbs)
-                        st.session_state.answered = False
                         st.session_state.feedback = ""
+                        st.session_state.answered = False
+                        st.session_state.show_next_button = False
 
                     if not st.session_state.answered:
                         # Display the current question
@@ -79,19 +84,21 @@ if uploaded_file:
 
                             if answer.lower() == correct_answer.lower():
                                 st.session_state.feedback = f"Correct: {st.session_state.current_verb} is {correct_answer}."
-                                # Remove the verb from test_verbs
                                 st.session_state.test_verbs.remove(st.session_state.current_verb)
                             else:
                                 st.session_state.feedback = f"Incorrect: {st.session_state.current_verb} is {correct_answer}."
 
                             st.session_state.answered = True
+                            st.session_state.show_next_button = True
 
-                    else:
-                        # Show feedback
+                    # Show feedback
+                    if st.session_state.answered:
                         st.write(st.session_state.feedback)
 
-                        # Next question button
+                    # Next question button
+                    if st.session_state.show_next_button:
                         if st.button("Next Question"):
                             st.session_state.current_verb = None
                             st.session_state.feedback = ""
                             st.session_state.answered = False
+                            st.session_state.show_next_button = False
