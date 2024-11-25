@@ -64,7 +64,7 @@ if uploaded_file:
                     )
 
                     # Submit button for answering
-                    if st.button("Submit Answer"):
+                    if st.button("Submit Answer / Next"):
                         # Get the correct answer
                         correct_answer = verb_data.loc[
                             verb_data['Verb'] == st.session_state.current_verb, 'Regularity'
