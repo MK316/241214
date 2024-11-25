@@ -35,7 +35,7 @@ if data_url:
                 st.header("Select Verbs for Practice")
 
                 # Reset selection button
-                if st.button("Reset Selection"):
+                if st.button("Reset Selection", key="reset_selection"):
                     st.session_state.selected_verbs = []
                     st.session_state.test_verbs = []
                     st.session_state.current_verb = None
@@ -55,7 +55,7 @@ if data_url:
                         selected_verb_indices.append(i)
 
                 # Submit button to collect selected verbs
-                if st.button("Submit Selection"):
+                if st.button("Submit Selection", key="submit_selection"):
                     st.session_state.selected_verbs = verb_data.loc[selected_verb_indices, 'Verb'].tolist()
                     st.session_state.test_verbs = st.session_state.selected_verbs.copy()
                     st.session_state.current_verb = None
@@ -87,11 +87,11 @@ if data_url:
                             answer = st.radio(
                                 "Choose one:",
                                 options=["Regular", "Irregular"],
-                                key="answer_radio"
+                                key="answer_radio_tab2"
                             )
 
                             # Submit answer button
-                            if st.button("Submit Answer"):
+                            if st.button("Submit Answer", key="submit_answer_tab2"):
                                 # Check the answer
                                 correct_answer = verb_data.loc[
                                     verb_data['Verb'] == st.session_state.current_verb, 'Regularity'
@@ -112,7 +112,7 @@ if data_url:
 
                         # Next question button
                         if st.session_state.show_next_button:
-                            if st.button("Next Question"):
+                            if st.button("Next Question", key="next_question_tab2"):
                                 st.session_state.current_verb = None
                                 st.session_state.feedback = ""
                                 st.session_state.answered = False
@@ -139,11 +139,11 @@ if data_url:
                             # Display the current question
                             st.write(f"Provide the past and past participle forms of '{st.session_state.current_verb}'.")
 
-                            past_answer = st.text_input("Past:", key="past_answer")
-                            pp_answer = st.text_input("Past Participle:", key="pp_answer")
+                            past_answer = st.text_input("Past:", key="past_answer_tab3")
+                            pp_answer = st.text_input("Past Participle:", key="pp_answer_tab3")
 
                             # Submit answer button
-                            if st.button("Submit Answer"):
+                            if st.button("Submit Answer", key="submit_answer_tab3"):
                                 # Check the answers
                                 correct_past = verb_data.loc[
                                     verb_data['Verb'] == st.session_state.current_verb, 'Past'
@@ -168,7 +168,7 @@ if data_url:
 
                         # Next question button
                         if st.session_state.show_next_button:
-                            if st.button("Next Question"):
+                            if st.button("Next Question", key="next_question_tab3"):
                                 st.session_state.current_verb = None
                                 st.session_state.feedback = ""
                                 st.session_state.answered = False
