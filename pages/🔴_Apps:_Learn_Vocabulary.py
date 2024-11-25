@@ -13,6 +13,7 @@ verbs = {
 def start_quiz():
     st.session_state.quiz_list = random.sample(list(verbs.items()), k=st.session_state.verb_count)
     st.session_state.remaining = len(st.session_state.quiz_list)
+    st.session_state.answer_checked = False  # Ensure this is initialized here
     get_next_verb()
 
 def get_next_verb():
@@ -38,7 +39,7 @@ def check_answer():
 st.header("Verb Tense Practice App")
 if 'quiz_list' not in st.session_state:
     st.session_state.verb_count = 5
-    st.session_state.answer_checked = False
+    st.session_state.answer_checked = False  # Initialize here to ensure it's always available
 
 verb_count = st.number_input("How many verbs would you like to practice?", min_value=1, max_value=len(verbs), value=st.session_state.verb_count)
 st.session_state.verb_count = verb_count
@@ -55,6 +56,6 @@ if 'current_verb' in st.session_state and st.session_state.current_verb:
     if st.button("Check Answer"):
         check_answer()
 
-    if st.session_state.answer_checked:  # Only show Next button if the answer has been checked
+    if st.session_state.get('answer_checked', False):  # Use get to safely check the flag
         if st.button("Next"):
             get_next_verb()
