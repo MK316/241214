@@ -79,7 +79,7 @@ if not st.session_state.current_sentence_tab3 and st.session_state.remaining_sen
     next_question_tab3()
 
 # Tab structure
-tab1, tab2, tab3 = st.tabs(["Audio Quiz: Match the Sound", "Dictation Practice", "Fill-in-the-Gap Listening"])
+tab1, tab2, tab3 = st.tabs(["🎧 Audio Quiz: Match the Sound", "📝 Dictation Practice", "🎧 Fill-in-the-Gap Listening"])
 
 # Tab 1: Audio Quiz - Match the Sound
 with tab1:
