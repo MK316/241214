@@ -36,26 +36,26 @@ with tab2:
     st.write("Coding is the foundation of building software and applications. It empowers you to create tools, solve problems, and innovate in the digital space.")
     green_button("Learn More About Coding", "https://www.w3schools.com")
 
-# Tab 2: Github
-with tab2:
+# Tab 3: Github
+with tab3:
     st.header("Tab 3: Github")
     st.write("GitHub is a platform for version control and collaboration. It helps developers manage and share code effectively.")
     green_button("Visit Github", "https://github.com")
 
-# Tab 3: Gradio
-with tab3:
+# Tab 4: Gradio
+with tab4:
     st.header("Tab 4: Gradio")
     st.write("Gradio makes it easy to create and share machine learning models with intuitive web-based interfaces.")
     green_button("Explore Gradio", "https://gradio.app")
 
-# Tab 4: Huggingface
-with tab4:
+# Tab 5: Huggingface
+with tab6:
     st.header("Tab 5: Huggingface")
     st.write("Huggingface provides tools and libraries for natural language processing and machine learning, including pre-trained models.")
     green_button("Discover Huggingface", "https://huggingface.co")
 
-# Tab 5: Streamlit
-with tab5:
+# Tab 6: Streamlit
+with tab7:
     st.header("Tab 6: Streamlit")
     st.write("Streamlit is a Python library that enables you to build interactive web applications for data science and machine learning.")
     green_button("Visit Streamlit", "https://streamlit.io")
