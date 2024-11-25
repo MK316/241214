@@ -82,7 +82,6 @@ if not st.session_state.current_sentence_tab3 and st.session_state.remaining_sen
 tab1, tab2, tab3 = st.tabs(["🎧 Audio Quiz: Match the Sound", "📝 Dictation Practice", "🎧 Fill-in-the-Gap Listening"])
 
 # Tab 1: Audio Quiz - Match the Sound
-# Tab 1: Audio Quiz - Match the Sound
 with tab1:
     st.header("🎧 Audio Quiz: Match the Image with the Sentence")
     st.write("Listen to the sentence and choose the image that matches it.")
@@ -105,37 +104,33 @@ with tab1:
     st.audio(tts_file, format="audio/mp3")
 
     # Display image options
+    def select_image(selected_target):
+        if selected_target == target:
+            st.session_state.feedback_tab1 = f"Correct! The sentence was: '{target_sentence}'."
+        else:
+            st.session_state.feedback_tab1 = f"Incorrect. The correct answer was: '{target_sentence}'."
+        st.session_state.target = random.choice(list(image_urls.keys()))  # Load a new target for the next question
+
     col1, col2, col3 = st.columns(3)
     with col1:
         st.image(image_urls["dog"], caption="Dog")
         if st.button("Select Dog", key="select_dog"):
-            if target == "dog":
-                st.session_state.feedback_tab1 = "Correct! The sentence was 'A dog is in the park.'"
-            else:
-                st.session_state.feedback_tab1 = f"Incorrect. The correct answer was '{target_sentence}'."
-            next_question_tab1()
+            select_image("dog")
 
     with col2:
         st.image(image_urls["cat"], caption="Cat")
         if st.button("Select Cat", key="select_cat"):
-            if target == "cat":
-                st.session_state.feedback_tab1 = "Correct! The sentence was 'A cat is sitting on the mat.'"
-            else:
-                st.session_state.feedback_tab1 = f"Incorrect. The correct answer was '{target_sentence}'."
-            next_question_tab1()
+            select_image("cat")
 
     with col3:
         st.image(image_urls["bird"], caption="Bird")
         if st.button("Select Bird", key="select_bird"):
-            if target == "bird":
-                st.session_state.feedback_tab1 = "Correct! The sentence was 'A bird is on the tree.'"
-            else:
-                st.session_state.feedback_tab1 = f"Incorrect. The correct answer was '{target_sentence}'."
-            next_question_tab1()
+            select_image("bird")
 
     # Display feedback
-    if st.session_state.feedback_tab1:
+    if "feedback_tab1" in st.session_state and st.session_state.feedback_tab1:
         st.write(st.session_state.feedback_tab1)
+
 
 # Tab 2: Dictation Practice
 with tab2:
