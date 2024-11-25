@@ -105,7 +105,8 @@ with tabs[3]:
 # Multi-Text to Speech Application
 with tabs[4]:
     st.header("Multi-Text to Speech Application")
-    user_input = st.text_area("Enter text below... (sample: Hello! I'm your Multi-Language Text-to-Speech application. I can effortlessly convert your text into spoken words in various languages, making it easier for you to hear how phrases sound in different tongues. Whether you're learning a new language or just want to hear text read aloud, I'm here to assist you. Let's explore language together!")
+    st.markdown("[sample text](https://github.com/MK316/241214/blob/main/data/sample_text.md)")
+    user_input = st.text_area("Enter text below... ")
     language = st.selectbox("Language", ["🇰🇷 Korean", "🇺🇸 English (AmE)", "🇬🇧 English (BrE)", "🇫🇷 French", "🇪🇸 Spanish", "🇨🇳 Chinese", "🇯🇵 Japanese"])
     if st.button('Generate Speech'):
         if user_input:
