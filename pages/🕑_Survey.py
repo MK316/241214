@@ -4,6 +4,7 @@ import matplotlib.pyplot as plt
 import gspread
 from google.oauth2.service_account import Credentials
 import pandas as pd
+import json
 
 # Google Sheets setup
 scope = ['https://spreadsheets.google.com/feeds', 'https://www.googleapis.com/auth/drive']
