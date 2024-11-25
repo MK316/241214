@@ -6,3 +6,5 @@ matplotlib
 seaborn
 wordcloud
 numpy
+qrcode
+Pillow
