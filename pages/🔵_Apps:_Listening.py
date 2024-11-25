@@ -213,13 +213,21 @@ with tab3:
             st.session_state.show_next_question_tab3 = True
 
         # Submit Answer button
-        if not st.session_state.show_next_question_tab3:
-            st.button("Submit Answer", on_click=check_answer_tab3)
+        st.button("Submit Answer", on_click=check_answer_tab3, key="submit_answer_tab3")
 
         # Display feedback
         if st.session_state.feedback_tab3:
             st.write(st.session_state.feedback_tab3)
 
+        # Callback function to reset for the next question
+        def next_question_tab3():
+            if st.session_state.remaining_sentences_tab3:
+                st.session_state.current_sentence_tab3 = random.choice(st.session_state.remaining_sentences_tab3)
+                st.session_state.feedback_tab3 = ""
+                st.session_state.show_next_question_tab3 = False
+            else:
+                st.session_state.current_sentence_tab3 = None
+
         # Show "Next Question" button if feedback is displayed
         if st.session_state.show_next_question_tab3:
-            st.button("Next Question", on_click=next_question_tab3)
+            st.button("Next Question", on_click=next_question_tab3, key="next_question_tab3")
