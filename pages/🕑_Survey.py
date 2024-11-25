@@ -7,7 +7,7 @@ import pandas as pd
 
 # Google Sheets setup
 scope = ['https://spreadsheets.google.com/feeds', 'https://www.googleapis.com/auth/drive']
-creds = ServiceAccountCredentials.from_json_keyfile_name('path_to_your_credentials_file.json', scope)
+creds = ServiceAccountCredentials.from_json_keyfile_name('https://drive.google.com/file/d/1anqMOdrHzlTKPfijOBU0DQRaKfRI4TRp/view?usp=sharing', scope)
 client = gspread.authorize(creds)
 sheet = client.open('Survey Results').sheet1  # Open the first sheet
 
