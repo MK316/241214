@@ -119,7 +119,7 @@ if st.session_state.countdown_started and not st.session_state.time_up:
     # countdown_placeholder.write("⏰ **Time's Up!**")
 
 # Hosted URL as a fallback
-audio_url = "https://github.com/MK316/241214/raw/main/audio/timesup.mp3"
+audio_url = "https://github.com/MK316/241214/raw/main/data/timesup.mp3"
 
 # Play the audio with user interaction
 if st.button("Play 'Time's Up' Audio"):
