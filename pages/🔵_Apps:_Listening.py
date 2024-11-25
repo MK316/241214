@@ -20,9 +20,9 @@ dictation_sentences = [
 
 # Example sentences with blanks for Tab 3
 fill_in_the_gap_data = [
-    {"full_sentence": "The cat is sleeping on the couch.", "gap_sentence": "The _____ is sleeping on the couch.", "answers": ["cat"]},
-    {"full_sentence": "The dog barked at the stranger.", "gap_sentence": "The _____ barked at the stranger.", "answers": ["dog"]},
-    {"full_sentence": "Birds are chirping in the morning.", "gap_sentence": "_____ are chirping in the morning.", "answers": ["birds"]},
+    {"full_sentence": "The cat is sleeping on the couch.", "gap_sentence": "The _______ is sleeping on the couch.", "answers": ["cat"]},
+    {"full_sentence": "The dog barked at the stranger.", "gap_sentence": "The ________ barked at the stranger.", "answers": ["dog"]},
+    {"full_sentence": "Birds are chirping in the morning.", "gap_sentence": "________ are chirping in the morning.", "answers": ["birds"]},
 ]
 
 # Initialize session state for Tab 1
