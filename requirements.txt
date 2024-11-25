@@ -1,6 +1,8 @@
-streamlit
 wordcloud
 matplotlib
 seaborn
-sqlalchemy
-gspread
+
+streamlit==1.10.0   # Use the latest version available or the one you're currently using
+gspread==5.3.2      # Use the latest version available or the one you're currently using
+google-auth==2.6.6  # Use the latest version available or the one you're currently using
+pandas==1.4.2       # Use the latest version available or the one you're currently using
