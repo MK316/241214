@@ -83,10 +83,10 @@ if uploaded_file:
                             ].values[0]
 
                             if answer.lower() == correct_answer.lower():
-                                st.session_state.feedback = f"Correct: {st.session_state.current_verb} is {correct_answer}."
+                                st.session_state.feedback = f"Correct: '{st.session_state.current_verb}' is a(n) {correct_answer} verb."
                                 st.session_state.test_verbs.remove(st.session_state.current_verb)
                             else:
-                                st.session_state.feedback = f"Incorrect: {st.session_state.current_verb} is {correct_answer}."
+                                st.session_state.feedback = f"Incorrect: '{st.session_state.current_verb}' is a(n) {correct_answer} verb."
 
                             st.session_state.answered = True
                             st.session_state.show_next_button = True
