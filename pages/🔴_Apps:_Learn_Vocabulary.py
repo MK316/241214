@@ -1,91 +1,85 @@
 import streamlit as st
+import pandas as pd
 import random
 
-# Define verbs dictionary
-verbs = {
-    'ask': ['asked', 'asked'],
-    'be': ['was/were', 'been'],
-    'begin': ['began', 'begun'],
-    'call': ['called', 'called'],
-    'choose': ['chose', 'chosen']
-}
+# Step 1: Load CSV file
+uploaded_file = st.file_uploader("Upload a CSV file with 'Verb' and 'Regularity' columns", type=['csv'])
 
-# Initialize or reset session state variables
-if 'quiz_list' not in st.session_state:
-    st.session_state.quiz_list = []
-if 'current_index' not in st.session_state:
-    st.session_state.current_index = 0
-if 'current_verb' not in st.session_state:
-    st.session_state.current_verb = None
-if 'current_form' not in st.session_state:
-    st.session_state.current_form = None
-if 'correct_answer' not in st.session_state:
-    st.session_state.correct_answer = None
-if 'quiz_started' not in st.session_state:
-    st.session_state.quiz_started = False
-if 'show_feedback' not in st.session_state:
-    st.session_state.show_feedback = False
-if 'user_answer' not in st.session_state:  # Ensure `user_answer` is initialized
-    st.session_state.user_answer = ""
-
-# Function to initialize the quiz
-def initialize_quiz():
-    st.session_state.quiz_list = random.sample(list(verbs.items()), k=st.session_state.verb_count)
-    st.session_state.current_index = 0
-    st.session_state.quiz_started = True
-    st.session_state.show_feedback = False
-    load_next_verb()
-
-# Function to load the next verb
-def load_next_verb():
-    if st.session_state.current_index < len(st.session_state.quiz_list):
-        verb, forms = st.session_state.quiz_list[st.session_state.current_index]
-        st.session_state.current_verb = verb
-        st.session_state.current_form = random.choice(['past', 'past participle'])
-        st.session_state.correct_answer = forms[0] if st.session_state.current_form == 'past' else forms[1]
-        st.session_state.show_feedback = False  # Reset feedback state for the new question
-        st.session_state.user_answer = ""  # Reset user answer for the next question
+if uploaded_file:
+    # Read the CSV file
+    verb_data = pd.read_csv(uploaded_file)
+    if 'Verb' not in verb_data.columns or 'Regularity' not in verb_data.columns:
+        st.error("The CSV file must have 'Verb' and 'Regularity' columns.")
     else:
-        st.session_state.quiz_started = False
-        st.session_state.current_verb = None
+        # Initialize session state
+        if 'selected_verbs' not in st.session_state:
+            st.session_state.selected_verbs = []
+        if 'test_verbs' not in st.session_state:
+            st.session_state.test_verbs = []
+        if 'current_verb' not in st.session_state:
+            st.session_state.current_verb = None
+        if 'feedback' not in st.session_state:
+            st.session_state.feedback = ""
 
-# Function to check the user's answer
-def check_answer():
-    user_answer = st.session_state.user_answer.strip().lower()
-    correct_answer = st.session_state.correct_answer.strip().lower()
-    if user_answer == correct_answer:
-        st.success("Correct! Good job!")
-    else:
-        st.error(f"Incorrect. The correct answer was '{st.session_state.correct_answer}'.")
-    st.session_state.show_feedback = True
+        # Step 2: Tab structure
+        tab1, tab2 = st.tabs(["Select Verbs", "Practice"])
 
-# Main layout
-st.header("Verb Tense Practice App")
+        # Tab 1: Select verbs
+        with tab1:
+            st.header("Select Verbs for Practice")
 
-# Verb count input
-st.number_input(
-    "How many verbs would you like to practice?",
-    min_value=1,
-    max_value=len(verbs),
-    value=5,
-    key="verb_count"
-)
+            # Display verbs with checkboxes
+            for _, row in verb_data.iterrows():
+                verb = row['Verb']
+                if 'selected_verb_' + verb not in st.session_state:
+                    st.session_state['selected_verb_' + verb] = False
+                st.session_state['selected_verb_' + verb] = st.checkbox(verb, key='selected_verb_' + verb)
 
-# Start quiz button
-if st.button("Start Quiz"):
-    initialize_quiz()
+            # Submit button to collect selected verbs
+            if st.button("Submit Selection"):
+                st.session_state.selected_verbs = [
+                    row['Verb']
+                    for _, row in verb_data.iterrows()
+                    if st.session_state['selected_verb_' + row['Verb']]
+                ]
+                st.session_state.test_verbs = st.session_state.selected_verbs.copy()
+                st.success(f"Selected verbs: {st.session_state.selected_verbs}")
 
-# Display current question and handle progression
-if st.session_state.quiz_started and st.session_state.current_verb:
-    if not st.session_state.show_feedback:
-        # Show the current question
-        form_type = "past" if st.session_state.current_form == 'past' else "past participle"
-        st.write(f"What is the {form_type} form of '{st.session_state.current_verb}'?")
-        st.text_input("Your answer:", key="user_answer", on_change=check_answer)
-    else:
-        # Automatically move to the next question
-        st.session_state.current_index += 1
-        load_next_verb()
-else:
-    if not st.session_state.quiz_started:
-        st.success("Quiz completed! Great job!")
+        # Tab 2: Practice
+        with tab2:
+            st.header("Practice Verbs")
+
+            if not st.session_state.selected_verbs:
+                st.warning("No verbs selected. Please go to Tab 1 and select verbs first.")
+            else:
+                if not st.session_state.test_verbs:
+                    st.success("Completed! You practiced all the selected verbs.")
+                else:
+                    # Randomly select a verb if none is currently selected
+                    if not st.session_state.current_verb:
+                        st.session_state.current_verb = random.choice(st.session_state.test_verbs)
+
+                    # Display the current verb question
+                    st.write(f"Is '{st.session_state.current_verb}' regular or irregular?")
+                    answer = st.radio(
+                        "Choose one:",
+                        options=["Regular", "Irregular"],
+                        key='answer',
+                    )
+
+                    # Submit button for answering
+                    if st.button("Submit Answer"):
+                        # Get the correct answer
+                        correct_answer = verb_data.loc[
+                            verb_data['Verb'] == st.session_state.current_verb, 'Regularity'
+                        ].values[0]
+
+                        if answer.lower() == correct_answer.lower():
+                            st.session_state.feedback = f"Correct: {st.session_state.current_verb} is {correct_answer}."
+                            # Remove the current verb from test_verbs
+                            st.session_state.test_verbs.remove(st.session_state.current_verb)
+                            st.session_state.current_verb = None  # Reset for the next question
+                        else:
+                            st.session_state.feedback = f"Incorrect: {st.session_state.current_verb} is {correct_answer}."
+
+                        st.write(st.session_state.feedback)
