@@ -1,7 +1,6 @@
 import streamlit as st
 from gtts import gTTS
 import random
-from PIL import Image
 
 # List of remote image URLs
 images = [
@@ -28,16 +27,16 @@ with tab1:
     # Play the audio
     st.audio(tts_file, format="audio/mp3")
 
-    # Display image options
+    # Display image options using remote URLs
     col1, col2, col3 = st.columns(3)
     with col1:
-        st.image("dog.png", caption="Dog")
+        st.image(images[0], caption="Dog")
         dog_selected = st.radio("Choose:", ["Select"], key="dog_radio")
     with col2:
-        st.image("cat.png", caption="Cat")
+        st.image(images[1], caption="Cat")
         cat_selected = st.radio("Choose:", ["Select"], key="cat_radio")
     with col3:
-        st.image("bird.png", caption="Bird")
+        st.image(images[2], caption="Bird")
         bird_selected = st.radio("Choose:", ["Select"], key="bird_radio")
 
     # Submit button
