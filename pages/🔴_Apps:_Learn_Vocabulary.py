@@ -25,6 +25,8 @@ if 'quiz_started' not in st.session_state:
     st.session_state.quiz_started = False
 if 'show_feedback' not in st.session_state:
     st.session_state.show_feedback = False
+if 'user_answer' not in st.session_state:  # Ensure `user_answer` is initialized
+    st.session_state.user_answer = ""
 
 # Function to initialize the quiz
 def initialize_quiz():
@@ -42,13 +44,14 @@ def load_next_verb():
         st.session_state.current_form = random.choice(['past', 'past participle'])
         st.session_state.correct_answer = forms[0] if st.session_state.current_form == 'past' else forms[1]
         st.session_state.show_feedback = False  # Reset feedback state for the new question
+        st.session_state.user_answer = ""  # Reset user answer for the next question
     else:
         st.session_state.quiz_started = False
         st.session_state.current_verb = None
 
 # Function to check the user's answer
-def check_answer(user_answer):
-    user_answer = user_answer.strip().lower()
+def check_answer():
+    user_answer = st.session_state.user_answer.strip().lower()
     correct_answer = st.session_state.correct_answer.strip().lower()
     if user_answer == correct_answer:
         st.success("Correct! Good job!")
@@ -78,7 +81,7 @@ if st.session_state.quiz_started and st.session_state.current_verb:
         # Show the current question
         form_type = "past" if st.session_state.current_form == 'past' else "past participle"
         st.write(f"What is the {form_type} form of '{st.session_state.current_verb}'?")
-        user_answer = st.text_input("Your answer:", key="user_answer", on_change=check_answer, args=(st.session_state.user_answer,))
+        st.text_input("Your answer:", key="user_answer", on_change=check_answer)
     else:
         # Automatically move to the next question
         st.session_state.current_index += 1
