@@ -35,6 +35,7 @@ def load_next_verb():
         verb, forms = st.session_state.quiz_list[st.session_state.current_index]
         st.session_state.current_verb = verb
         st.session_state.current_form = random.choice(['past', 'past participle'])
+        st.session_state.correct_answer = forms[0] if st.session_state.current_form == 'past' else forms[1]
         st.session_state.current_index += 1
     else:
         st.session_state.current_verb = None
@@ -44,13 +45,12 @@ def load_next_verb():
 # Function to check the answer
 def check_answer():
     if st.session_state.current_verb:
-        verb, forms = verbs[st.session_state.current_verb]
-        correct_form = forms[0] if st.session_state.current_form == 'past' else forms[1]
         user_answer = st.session_state.user_answer.strip().lower()
-        if user_answer == correct_form.lower():
+        correct_answer = st.session_state.correct_answer.lower()
+        if user_answer == correct_answer:
             st.success("Correct! Good job!")
         else:
-            st.error(f"Incorrect. The correct answer was '{correct_form}'.")
+            st.error(f"Incorrect. The correct answer was '{st.session_state.correct_answer}'.")
 
 # Main layout
 st.header("Verb Tense Practice App")
