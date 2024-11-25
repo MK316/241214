@@ -3,7 +3,7 @@ import pandas as pd
 import random
 
 # Step 1: Load CSV data from URL
-data_url = st.text_input("Enter the URL of the CSV file (with 'Verb', 'Regularity', 'Past', and 'PP' columns):")
+data_url = "https://raw.githubusercontent.com/MK316/241214/refs/heads/main/data/verb_sample.csv"
 
 if data_url:
     try:
