@@ -9,6 +9,20 @@ image_urls = {
     "bird": "https://github.com/MK316/241214/raw/main/image/bird.jpg"
 }
 
+# Initialize session state
+if "target" not in st.session_state:
+    st.session_state.target = random.choice(list(image_urls.keys()))  # Select initial target
+if "feedback" not in st.session_state:
+    st.session_state.feedback = ""  # Initialize feedback message
+if "next_question_triggered" not in st.session_state:
+    st.session_state.next_question_triggered = False  # Tracks if the question should update
+
+# Function to reset for the next question
+def next_question():
+    st.session_state.target = random.choice(list(image_urls.keys()))
+    st.session_state.feedback = ""
+    st.session_state.next_question_triggered = False
+
 # Tab structure
 tab1, tab2, tab3 = st.tabs(["Audio Quiz: Match the Sound", "Dictation Practice", "Fill-in-the-Gap Listening"])
 
@@ -17,14 +31,8 @@ with tab1:
     st.header("Audio Quiz: Match the Sound")
     st.write("Listen to the audio and choose the image that matches the sound.")
 
-    # Initialize session state for target and feedback
-    if "target" not in st.session_state:
-        st.session_state.target = random.choice(list(image_urls.keys()))
-    if "feedback" not in st.session_state:
-        st.session_state.feedback = ""
-
     # Generate audio for the target
-    target = st.session_state.target
+    target = st.session_state.target  # Current target word
     tts = gTTS(text=f"The sound is {target}.", lang="en")
     tts_file = f"{target}_audio.mp3"
     tts.save(tts_file)
@@ -32,38 +40,39 @@ with tab1:
     # Play the audio
     st.audio(tts_file, format="audio/mp3")
 
-    # Display image options with selection buttons
+    # Display image options
+    user_choice = None  # Initialize user choice
     col1, col2, col3 = st.columns(3)
     with col1:
         st.image(image_urls["dog"], caption="Dog")
         if st.button("Select Dog", key="select_dog"):
-            if target == "dog":
-                st.session_state.feedback = "Correct! The sound was 'Dog'."
-            else:
-                st.session_state.feedback = f"Incorrect. The correct answer was '{target.capitalize()}'."
-            st.session_state.target = random.choice(list(image_urls.keys()))  # Update target
-
+            user_choice = "dog"
     with col2:
         st.image(image_urls["cat"], caption="Cat")
         if st.button("Select Cat", key="select_cat"):
-            if target == "cat":
-                st.session_state.feedback = "Correct! The sound was 'Cat'."
-            else:
-                st.session_state.feedback = f"Incorrect. The correct answer was '{target.capitalize()}'."
-            st.session_state.target = random.choice(list(image_urls.keys()))  # Update target
-
+            user_choice = "cat"
     with col3:
         st.image(image_urls["bird"], caption="Bird")
         if st.button("Select Bird", key="select_bird"):
-            if target == "bird":
-                st.session_state.feedback = "Correct! The sound was 'Bird'."
-            else:
-                st.session_state.feedback = f"Incorrect. The correct answer was '{target.capitalize()}'."
-            st.session_state.target = random.choice(list(image_urls.keys()))  # Update target
+            user_choice = "bird"
+
+    # Check user answer and give feedback
+    if user_choice and not st.session_state.next_question_triggered:
+        if user_choice == target:
+            st.session_state.feedback = f"Correct! The sound was '{target.capitalize()}'."
+        else:
+            st.session_state.feedback = f"Incorrect. The correct answer was '{target.capitalize()}'."
+        st.session_state.next_question_triggered = True
 
     # Display feedback
     if st.session_state.feedback:
         st.write(st.session_state.feedback)
+
+    # "Next Question" button to proceed
+    if st.session_state.next_question_triggered:
+        if st.button("Next Question"):
+            next_question()
+
 
 # Tab 2: Dictation Practice
 with tab2:
