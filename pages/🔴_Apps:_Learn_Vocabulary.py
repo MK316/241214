@@ -48,7 +48,7 @@ if data_url:
                 st.session_state.feedback_audio_path = None
 
             # Tab structure
-            tab1, tab2, tab3, tab4 = st.tabs(["📌 Select Verbs", "[1] Practice Regularity", "[2] Practice Tense Forms", "[3] Practice with Sounds"])
+            tab1, tab2, tab3, tab4 = st.tabs(["📌 Select Verbs", "🔸[1] Practice Regularity", "🔸[2] Practice Tense Forms", "🔸[3] Practice with Sounds"])
 
             # Tab 1: Select verbs
             with tab1:
