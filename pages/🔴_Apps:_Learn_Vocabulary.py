@@ -44,7 +44,7 @@ def load_next_verb():
         st.session_state.feedback_shown = False
     else:
         st.session_state.quiz_started = False
-        st.success("Quiz completed! Great job!")
+        st.session_state.current_verb = None
 
 # Function to check the user's answer
 def check_answer():
@@ -75,8 +75,8 @@ if st.button("Start Quiz"):
 
 # Display current question and answer input
 if st.session_state.quiz_started and st.session_state.current_verb:
-    # Show the current question
     if not st.session_state.feedback_shown:
+        # Show the current question
         form_type = "past" if st.session_state.current_form == 'past' else "past participle"
         st.write(f"What is the {form_type} form of '{st.session_state.current_verb}'?")
         user_answer = st.text_input("Your answer:", key="user_answer")
@@ -84,7 +84,10 @@ if st.session_state.quiz_started and st.session_state.current_verb:
         if st.button("Submit Answer"):
             check_answer()
     else:
-        # Automatically load the next question after feedback
-        st.session_state.current_index += 1
-        load_next_verb()
-        st.experimental_rerun()
+        # Show feedback and a button to load the next question
+        if st.button("Next Question"):
+            st.session_state.current_index += 1
+            load_next_verb()
+else:
+    if not st.session_state.quiz_started:
+        st.success("Quiz completed! Great job!")
