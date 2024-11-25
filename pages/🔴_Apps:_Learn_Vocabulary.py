@@ -35,10 +35,17 @@ if data_url:
                 st.session_state.feedback_tab3 = ""
             if 'feedback_audio_path' not in st.session_state:
                 st.session_state.feedback_audio_path = None
-            if 'answered_tab2' not in st.session_state:
-                st.session_state.answered_tab2 = False
-            if 'answered_tab3' not in st.session_state:
-                st.session_state.answered_tab3 = False
+
+            # Callbacks
+            def next_verb_tab2():
+                st.session_state.current_verb_tab2 = None
+
+            def next_verb_tab3():
+                st.session_state.current_verb_tab3 = None
+
+            def next_verb_tab4():
+                st.session_state.current_verb_tab4 = None
+                st.session_state.feedback_audio_path = None
 
             # Tab structure
             tab1, tab2, tab3, tab4 = st.tabs(["Select Verbs", "Practice Regularity", "Practice Forms", "Practice with Sounds"])
@@ -86,7 +93,6 @@ if data_url:
                         if not st.session_state.current_verb_tab2:
                             st.session_state.current_verb_tab2 = random.choice(st.session_state.test_verbs_tab2)
                             st.session_state.feedback_tab2 = ""
-                            st.session_state.answered_tab2 = False
 
                         st.write(f"Is '{st.session_state.current_verb_tab2}' regular or irregular?")
                         answer = st.radio("Choose one:", ["Regular", "Irregular"], key="answer_radio_tab2")
@@ -102,11 +108,8 @@ if data_url:
                                 st.session_state.feedback_tab2 = f"Incorrect: {st.session_state.current_verb_tab2} is {correct_answer}."
 
                             st.write(st.session_state.feedback_tab2)
-                            st.session_state.answered_tab2 = True
 
-                        if st.session_state.answered_tab2:
-                            if st.button("Next", key="next_tab2"):
-                                st.session_state.current_verb_tab2 = None
+                        st.button("Next", key="next_tab2", on_click=next_verb_tab2)
 
             # Tab 3: Practice Past and Past Participle
             with tab3:
@@ -121,7 +124,6 @@ if data_url:
                         if not st.session_state.current_verb_tab3:
                             st.session_state.current_verb_tab3 = random.choice(st.session_state.test_verbs_tab3)
                             st.session_state.feedback_tab3 = ""
-                            st.session_state.answered_tab3 = False
 
                         st.write(f"Provide the past and past participle forms of '{st.session_state.current_verb_tab3}'.")
 
@@ -144,11 +146,8 @@ if data_url:
                                 st.session_state.feedback_tab3 = f"Incorrect: {st.session_state.current_verb_tab3} - {correct_past} - {correct_pp}."
 
                             st.write(st.session_state.feedback_tab3)
-                            st.session_state.answered_tab3 = True
 
-                        if st.session_state.answered_tab3:
-                            if st.button("Next", key="next_tab3"):
-                                st.session_state.current_verb_tab3 = None
+                        st.button("Next", key="next_tab3", on_click=next_verb_tab3)
 
             # Tab 4: Practice with Sounds
             with tab4:
@@ -195,15 +194,10 @@ if data_url:
                             feedback_audio.save(feedback_audio_path)
                             st.session_state.feedback_audio_path = feedback_audio_path
 
-                        # Play feedback audio
                         if st.session_state.feedback_audio_path:
                             st.audio(st.session_state.feedback_audio_path, format="audio/mp3")
 
-                        # Next question button
-                        if st.button("Next Question", key="next_question_tab4"):
-                            st.session_state.current_verb_tab4 = None
-                            st.session_state.feedback_audio_path = None
-
+                        st.button("Next", key="next_tab4", on_click=next_verb_tab4)
 
     except Exception as e:
         st.error(f"Error loading data: {str(e)}")
