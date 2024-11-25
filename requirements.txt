@@ -8,3 +8,5 @@ wordcloud
 numpy
 qrcode
 Pillow
+gtts
+pydub
