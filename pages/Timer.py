@@ -119,7 +119,7 @@ if st.session_state.countdown_started and not st.session_state.time_up:
     # countdown_placeholder.write("⏰ **Time's Up!**")
 
     # Play the sound using Streamlit's audio player
-    audio_file = open("https://github.com/MK316/241214/raw/main/data/timesup.mp3", "rb")
+    audio_file = open("timesup.mp3", "rb")
     st.audio(audio_file.read(), format="audio/mp3")
 
     st.session_state.countdown_started = False
