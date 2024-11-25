@@ -6,7 +6,7 @@ import random
 image_urls = {
     "dog": "https://github.com/MK316/241214/raw/main/image/dog.jpg",
     "cat": "https://github.com/MK316/241214/raw/main/image/cat.jpg",
-    "bird": "https://github.com/MK316/241214/raw/main/image/cat.png"
+    "bird": "https://github.com/MK316/241214/raw/main/image/bird.jpg"
 }
 
 # Tab structure
