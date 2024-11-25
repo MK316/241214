@@ -20,6 +20,8 @@ if uploaded_file:
             st.session_state.current_verb = None
         if 'feedback' not in st.session_state:
             st.session_state.feedback = ""
+        if 'answered' not in st.session_state:
+            st.session_state.answered = False  # Track whether feedback is shown
 
         # Step 2: Tab structure
         tab1, tab2 = st.tabs(["Select Verbs", "Practice"])
@@ -51,9 +53,10 @@ if uploaded_file:
                 if not st.session_state.test_verbs:
                     st.success("Completed! You practiced all the selected verbs.")
                 else:
-                    # Randomly select a verb if none is currently selected
-                    if not st.session_state.current_verb:
+                    # Randomly select a verb if none is currently selected or if user has answered
+                    if st.session_state.current_verb is None or st.session_state.answered:
                         st.session_state.current_verb = random.choice(st.session_state.test_verbs)
+                        st.session_state.answered = False  # Reset for the next question
 
                     # Display the current verb question
                     st.write(f"Is '{st.session_state.current_verb}' regular or irregular?")
@@ -65,20 +68,19 @@ if uploaded_file:
 
                     # Submit button for answering
                     if st.button("Submit Answer / Next"):
-                        # Get the correct answer
-                        correct_answer = verb_data.loc[
-                            verb_data['Verb'] == st.session_state.current_verb, 'Regularity'
-                        ].values[0]
+                        if not st.session_state.answered:
+                            # Get the correct answer
+                            correct_answer = verb_data.loc[
+                                verb_data['Verb'] == st.session_state.current_verb, 'Regularity'
+                            ].values[0]
 
-                        if answer.lower() == correct_answer.lower():
-                            st.session_state.feedback = f"Correct: {st.session_state.current_verb} is {correct_answer}."
-                            # Create a new list excluding the current verb
-                            st.session_state.test_verbs = [
-                                verb for verb in st.session_state.test_verbs
-                                if verb != st.session_state.current_verb
-                            ]
-                            st.session_state.current_verb = None  # Reset for the next question
-                        else:
-                            st.session_state.feedback = f"Incorrect: {st.session_state.current_verb} is {correct_answer}."
+                            if answer.lower() == correct_answer.lower():
+                                st.session_state.feedback = f"Correct: {st.session_state.current_verb} is {correct_answer}."
+                                # Remove the current verb from test_verbs
+                                st.session_state.test_verbs.remove(st.session_state.current_verb)
+                                st.session_state.current_verb = None  # Reset for the next question
+                            else:
+                                st.session_state.feedback = f"Incorrect: {st.session_state.current_verb} is {correct_answer}."
 
-                        st.write(st.session_state.feedback)
+                            st.session_state.answered = True  # Mark this question as answered
+                            st.write(st.session_state.feedback)
