@@ -1,14 +1,14 @@
 import streamlit as st
 from gtts import gTTS
-import os
 import random
 from PIL import Image
 
-# Ensure required image files are available in the directory
-images = ["https://github.com/MK316/241214/raw/main/image/dog.jpg", "https://github.com/MK316/241214/raw/main/image/cat.jpg", "https://github.com/MK316/241214/raw/main/image/cat.png"]
-for img in images:
-    if not os.path.exists(img):
-        st.warning(f"Image file '{img}' not found in the directory.")
+# List of remote image URLs
+images = [
+    "https://github.com/MK316/241214/raw/main/image/dog.jpg",
+    "https://github.com/MK316/241214/raw/main/image/cat.jpg",
+    "https://github.com/MK316/241214/raw/main/image/cat.png"
+]
 
 # Tab structure
 tab1, tab2, tab3 = st.tabs(["Audio Quiz: Match the Sound", "Dictation Practice", "Fill-in-the-Gap Listening"])
