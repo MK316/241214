@@ -23,15 +23,15 @@ if 'correct_answer' not in st.session_state:
     st.session_state.correct_answer = None
 if 'quiz_started' not in st.session_state:
     st.session_state.quiz_started = False
-if 'feedback_given' not in st.session_state:
-    st.session_state.feedback_given = False
+if 'feedback_shown' not in st.session_state:
+    st.session_state.feedback_shown = False
 
 # Function to initialize the quiz
 def initialize_quiz():
     st.session_state.quiz_list = random.sample(list(verbs.items()), k=st.session_state.verb_count)
     st.session_state.current_index = 0
     st.session_state.quiz_started = True
-    st.session_state.feedback_given = False
+    st.session_state.feedback_shown = False
     load_next_verb()
 
 # Function to load the next verb
@@ -41,11 +41,21 @@ def load_next_verb():
         st.session_state.current_verb = verb
         st.session_state.current_form = random.choice(['past', 'past participle'])
         st.session_state.correct_answer = forms[0] if st.session_state.current_form == 'past' else forms[1]
-        st.session_state.feedback_given = False
+        st.session_state.feedback_shown = False
     else:
-        st.session_state.current_verb = None
-        st.success("Quiz completed! Great job!")
         st.session_state.quiz_started = False
+        st.success("Quiz completed! Great job!")
+
+# Function to check the user's answer
+def check_answer():
+    if st.session_state.current_verb:
+        user_answer = st.session_state.user_answer.strip().lower()
+        correct_answer = st.session_state.correct_answer.strip().lower()
+        if user_answer == correct_answer:
+            st.success("Correct! Good job!")
+        else:
+            st.error(f"Incorrect. The correct answer was '{st.session_state.correct_answer}'.")
+        st.session_state.feedback_shown = True  # Mark feedback as shown
 
 # Main layout
 st.header("Verb Tense Practice App")
@@ -65,18 +75,16 @@ if st.button("Start Quiz"):
 
 # Display current question and answer input
 if st.session_state.quiz_started and st.session_state.current_verb:
-    if not st.session_state.feedback_given:
-        # Show the current question
+    # Show the current question
+    if not st.session_state.feedback_shown:
         form_type = "past" if st.session_state.current_form == 'past' else "past participle"
         st.write(f"What is the {form_type} form of '{st.session_state.current_verb}'?")
         user_answer = st.text_input("Your answer:", key="user_answer")
-        
+
         if st.button("Submit Answer"):
-            if user_answer.strip().lower() == st.session_state.correct_answer.lower():
-                st.success("Correct! Good job!")
-            else:
-                st.error(f"Incorrect. The correct answer was '{st.session_state.correct_answer}'.")
-            # Mark feedback as given and move to the next question
-            st.session_state.feedback_given = True
-            st.session_state.current_index += 1
-            load_next_verb()
+            check_answer()
+    else:
+        # Automatically load the next question after feedback
+        st.session_state.current_index += 1
+        load_next_verb()
+        st.experimental_rerun()
