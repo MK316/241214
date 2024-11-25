@@ -3,11 +3,11 @@ from gtts import gTTS
 import random
 
 # List of remote image URLs
-images = [
-    "https://github.com/MK316/241214/raw/main/image/dog.jpg",
-    "https://github.com/MK316/241214/raw/main/image/cat.jpg",
-    "https://github.com/MK316/241214/raw/main/image/bird.jpg"
-]
+image_urls = {
+    "dog": "https://github.com/MK316/241214/raw/main/image/dog.jpg",
+    "cat": "https://github.com/MK316/241214/raw/main/image/cat.jpg",
+    "bird": "https://github.com/MK316/241214/raw/main/image/cat.png"
+}
 
 # Tab structure
 tab1, tab2, tab3 = st.tabs(["Audio Quiz: Match the Sound", "Dictation Practice", "Fill-in-the-Gap Listening"])
@@ -18,7 +18,7 @@ with tab1:
     st.write("Listen to the audio and choose the image that matches the sound.")
 
     # Generate random audio
-    options = ["dog", "cat", "bird"]
+    options = list(image_urls.keys())  # ["dog", "cat", "bird"]
     target = random.choice(options)
     tts = gTTS(text=f"The sound is {target}.", lang="en")
     tts_file = f"{target}_audio.mp3"
@@ -28,24 +28,28 @@ with tab1:
     st.audio(tts_file, format="audio/mp3")
 
     # Display image options using remote URLs
+    user_choice = None  # Initialize user choice
     col1, col2, col3 = st.columns(3)
     with col1:
-        st.image(images[0], caption="Dog")
-        dog_selected = st.radio("Choose:", ["Select"], key="dog_radio")
+        st.image(image_urls["dog"], caption="Dog")
+        if st.button("Select Dog", key="select_dog"):
+            user_choice = "dog"
     with col2:
-        st.image(images[1], caption="Cat")
-        cat_selected = st.radio("Choose:", ["Select"], key="cat_radio")
+        st.image(image_urls["cat"], caption="Cat")
+        if st.button("Select Cat", key="select_cat"):
+            user_choice = "cat"
     with col3:
-        st.image(images[2], caption="Bird")
-        bird_selected = st.radio("Choose:", ["Select"], key="bird_radio")
+        st.image(image_urls["bird"], caption="Bird")
+        if st.button("Select Bird", key="select_bird"):
+            user_choice = "bird"
 
     # Submit button
-    if st.button("Submit Answer", key="quiz_submit"):
-        user_choice = "dog" if "Select" in dog_selected else "cat" if "Select" in cat_selected else "bird"
+    if user_choice:
         if user_choice == target:
-            st.success("Correct! Well done.")
+            st.success(f"Correct! The sound was '{target.capitalize()}'.")
         else:
-            st.error(f"Incorrect. The correct answer is {target.capitalize()}.")
+            st.error(f"Incorrect. The correct answer is '{target.capitalize()}'.")
+
 
 # Tab 2: Dictation Practice
 with tab2:
