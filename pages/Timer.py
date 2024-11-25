@@ -118,17 +118,15 @@ if st.session_state.countdown_started and not st.session_state.time_up:
     progress_placeholder.pyplot(fig)
     # countdown_placeholder.write("⏰ **Time's Up!**")
 
-# Hosted URL as a fallback for mobile compatibility
+# Hosted URL as a fallback
 audio_url = "https://github.com/MK316/241214/raw/main/audio/timesup.mp3"
 
-# Play the audio
-try:
-    # Local audio playback
-    with open("timesup.mp3", "rb") as audio_file:
-        st.audio(audio_file.read(), format="audio/mp3")
-except FileNotFoundError:
-    # Hosted audio playback
-    st.audio(audio_url)
-
+# Play the audio with user interaction
+if st.button("Play 'Time's Up' Audio"):
+    try:
+        with open("timesup.mp3", "rb") as audio_file:
+            st.audio(audio_file.read(), format="audio/mp3")
+    except FileNotFoundError:
+        st.audio(audio_url)  # Use the hosted file as a backup
 
     st.session_state.countdown_started = False
