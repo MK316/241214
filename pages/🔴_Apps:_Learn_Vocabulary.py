@@ -41,6 +41,8 @@ if uploaded_file:
             if st.button("Submit Selection"):
                 st.session_state.selected_verbs = verb_data.loc[selected_verb_indices, 'Verb'].tolist()
                 st.session_state.test_verbs = st.session_state.selected_verbs.copy()
+                st.session_state.current_verb = None
+                st.session_state.feedback = ""
                 st.success(f"Selected verbs: {st.session_state.selected_verbs}")
 
         # Tab 2: Practice
@@ -53,40 +55,43 @@ if uploaded_file:
                 if not st.session_state.test_verbs:
                     st.success("Completed! You practiced all the selected verbs.")
                 else:
-                    # Randomly select a verb if none is currently selected or if user has answered
-                    if st.session_state.current_verb is None or st.session_state.answered:
-                        # Ensure the current verb is in the test_verbs list
-                        if st.session_state.current_verb in st.session_state.test_verbs:
-                            st.session_state.test_verbs.remove(st.session_state.current_verb)
-
-                        # Select a new verb
+                    # Show the current verb
+                    if not st.session_state.current_verb:
                         st.session_state.current_verb = random.choice(st.session_state.test_verbs)
-                        st.session_state.answered = False  # Reset for the next question
+                        st.session_state.answered = False
+                        st.session_state.feedback = ""
 
-                    # Display the current verb question
-                    st.write(f"Is '{st.session_state.current_verb}' regular or irregular?")
-                    answer = st.radio(
-                        "Choose one:",
-                        options=["Regular", "Irregular"],
-                        key='answer_radio',
-                    )
+                    if not st.session_state.answered:
+                        # Display the current question
+                        st.write(f"Is '{st.session_state.current_verb}' regular or irregular?")
+                        answer = st.radio(
+                            "Choose one:",
+                            options=["Regular", "Irregular"],
+                            key="answer_radio"
+                        )
 
-                    # Submit button for answering
-                    if st.button("Submit Answer / Next"):
-                        if not st.session_state.answered:
-                            # Get the correct answer
+                        # Submit answer button
+                        if st.button("Submit Answer"):
+                            # Check the answer
                             correct_answer = verb_data.loc[
                                 verb_data['Verb'] == st.session_state.current_verb, 'Regularity'
                             ].values[0]
 
                             if answer.lower() == correct_answer.lower():
                                 st.session_state.feedback = f"Correct: {st.session_state.current_verb} is {correct_answer}."
-                                # Remove the current verb safely
-                                if st.session_state.current_verb in st.session_state.test_verbs:
-                                    st.session_state.test_verbs.remove(st.session_state.current_verb)
-                                st.session_state.current_verb = None  # Reset for the next question
+                                # Remove the verb from test_verbs
+                                st.session_state.test_verbs.remove(st.session_state.current_verb)
                             else:
                                 st.session_state.feedback = f"Incorrect: {st.session_state.current_verb} is {correct_answer}."
 
-                            st.session_state.answered = True  # Mark this question as answered
-                            st.write(st.session_state.feedback)
+                            st.session_state.answered = True
+
+                    else:
+                        # Show feedback
+                        st.write(st.session_state.feedback)
+
+                        # Next question button
+                        if st.button("Next Question"):
+                            st.session_state.current_verb = None
+                            st.session_state.feedback = ""
+                            st.session_state.answered = False
