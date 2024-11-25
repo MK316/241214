@@ -18,7 +18,7 @@ if "time_up" not in st.session_state:
     st.session_state.time_up = False
 
 # Title
-st.title("🐧 MK316 Customized Timer ")
+st.write("🐧 MK316 Customized Timer ")
 
 # Function to display the current time (as a live digital clock)
 def display_current_time(current_time_placeholder):
