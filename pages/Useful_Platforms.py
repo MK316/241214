@@ -32,9 +32,10 @@ with tab1:
 
 # Tab 2: Coding
 with tab2:
-    st.header("2: Coding")
-    st.write("Coding is the foundation of building software and applications. It empowers you to create tools, solve problems, and innovate in the digital space.")
-    green_button("Learn More About Coding", "https://www.w3schools.com")
+    st.header("Tab 2: Coding Online")
+    st.write("Google Colab is a cloud-based platform that allows you to write and execute Python code in your browser. It is especially useful for machine learning, data analysis, and collaborative coding projects.")
+    green_button("Visit Google Colab", "https://colab.research.google.com")
+
 
 # Tab 3: Github
 with tab3:
