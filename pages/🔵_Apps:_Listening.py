@@ -104,32 +104,43 @@ with tab1:
     st.audio(tts_file, format="audio/mp3")
 
     # Display image options
-    def select_image(selected_target):
+    def check_answer(selected_target):
         if selected_target == target:
             st.session_state.feedback_tab1 = f"Correct! The sentence was: '{target_sentence}'."
         else:
             st.session_state.feedback_tab1 = f"Incorrect. The correct answer was: '{target_sentence}'."
-        st.session_state.target = random.choice(list(image_urls.keys()))  # Load a new target for the next question
+        st.session_state.show_next_button_tab1 = True
 
+    # Image selection buttons
     col1, col2, col3 = st.columns(3)
     with col1:
         st.image(image_urls["dog"], caption="Dog")
         if st.button("Select Dog", key="select_dog"):
-            select_image("dog")
+            check_answer("dog")
 
     with col2:
         st.image(image_urls["cat"], caption="Cat")
         if st.button("Select Cat", key="select_cat"):
-            select_image("cat")
+            check_answer("cat")
 
     with col3:
         st.image(image_urls["bird"], caption="Bird")
         if st.button("Select Bird", key="select_bird"):
-            select_image("bird")
+            check_answer("bird")
 
     # Display feedback
     if "feedback_tab1" in st.session_state and st.session_state.feedback_tab1:
         st.write(st.session_state.feedback_tab1)
+
+    # Function to load the next question
+    def next_question():
+        st.session_state.target = random.choice(list(image_urls.keys()))
+        st.session_state.feedback_tab1 = ""
+        st.session_state.show_next_button_tab1 = False
+
+    # Show "Next Question" button
+    if st.session_state.get("show_next_button_tab1", False):
+        st.button("Next Question", on_click=next_question, key="next_question_tab1")
 
 
 # Tab 2: Dictation Practice
