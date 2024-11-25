@@ -48,7 +48,7 @@ if data_url:
                 st.session_state.feedback_audio_path = None
 
             # Tab structure
-            tab1, tab2, tab3, tab4 = st.tabs(["Select Verbs", "Practice Regularity", "Practice Forms", "Practice with Sounds"])
+            tab1, tab2, tab3, tab4 = st.tabs(["📌 Select Verbs", "[1] Practice Regularity", "[2] Practice Tense Forms", "[3] Practice with Sounds"])
 
             # Tab 1: Select verbs
             with tab1:
@@ -125,10 +125,10 @@ if data_url:
                             st.session_state.current_verb_tab3 = random.choice(st.session_state.test_verbs_tab3)
                             st.session_state.feedback_tab3 = ""
 
-                        st.write(f"Provide the past and past participle forms of '{st.session_state.current_verb_tab3}'.")
+                        st.write(f"'{st.session_state.current_verb_tab3}'.")
 
-                        past_answer = st.text_input("Past:", key="past_answer_tab3")
-                        pp_answer = st.text_input("Past Participle:", key="pp_answer_tab3")
+                        past_answer = st.text_input("Past form:", key="past_answer_tab3")
+                        pp_answer = st.text_input("Past Participle form:", key="pp_answer_tab3")
 
                         if st.button("Submit Answer", key="submit_answer_tab3"):
                             correct_past = verb_data.loc[
@@ -164,7 +164,7 @@ if data_url:
                             st.session_state.feedback_audio_path = None
 
                         verb = st.session_state.current_verb_tab4
-                        question_text = f"What are the past and past participle forms of {verb}?"
+                        question_text = f"What are the past and past participle forms of the verb {verb}?"
                         question_audio = gTTS(question_text, lang='en')
                         question_audio_path = f"{verb}_question.mp3"
                         question_audio.save(question_audio_path)
@@ -184,10 +184,10 @@ if data_url:
                             correct_answer = f"{verb}-{correct_past}-{correct_pp}"
 
                             if user_answer.strip().lower() == correct_answer.lower():
-                                feedback_text = f"Correct: {correct_answer}."
+                                feedback_text = f"That's correct!: {correct_answer}."
                                 st.session_state.test_verbs_tab4.remove(verb)
                             else:
-                                feedback_text = f"Incorrect: {correct_answer}."
+                                feedback_text = f"Please try again!: The correct answer is {correct_answer}."
 
                             feedback_audio = gTTS(feedback_text, lang='en')
                             feedback_audio_path = f"{verb}_feedback.mp3"
