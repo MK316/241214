@@ -2,7 +2,7 @@ import streamlit as st
 from gtts import gTTS
 import random
 
-# List of remote image URLs
+# Updated image URLs
 image_urls = {
     "dog": "https://github.com/MK316/241214/raw/main/image/dog.jpg",
     "cat": "https://github.com/MK316/241214/raw/main/image/cat.jpg",
@@ -18,8 +18,10 @@ with tab1:
     st.write("Listen to the audio and choose the image that matches the sound.")
 
     # Generate random audio
-    options = list(image_urls.keys())  # ["dog", "cat", "bird"]
-    target = random.choice(options)
+    if "target" not in st.session_state:
+        st.session_state.target = random.choice(list(image_urls.keys()))  # Choose target word randomly
+
+    target = st.session_state.target  # Use session state for persistence
     tts = gTTS(text=f"The sound is {target}.", lang="en")
     tts_file = f"{target}_audio.mp3"
     tts.save(tts_file)
@@ -43,13 +45,14 @@ with tab1:
         if st.button("Select Bird", key="select_bird"):
             user_choice = "bird"
 
-    # Submit button
+    # Feedback after selection
     if user_choice:
         if user_choice == target:
             st.success(f"Correct! The sound was '{target.capitalize()}'.")
+            # Reset target for the next question
+            st.session_state.target = random.choice(list(image_urls.keys()))
         else:
             st.error(f"Incorrect. The correct answer is '{target.capitalize()}'.")
-
 
 # Tab 2: Dictation Practice
 with tab2:
