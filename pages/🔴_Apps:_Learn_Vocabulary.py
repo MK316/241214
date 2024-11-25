@@ -49,7 +49,6 @@ if data_url:
 
                 # Reset selection button
                 if st.button("Reset Selection", key="reset_selection"):
-                    # Reset all checkboxes and session state variables
                     for i in range(len(verb_data)):
                         st.session_state[f'verb_checkbox_{i}'] = False
                     st.session_state.selected_verbs = []
@@ -61,87 +60,18 @@ if data_url:
                     st.session_state.current_verb_tab4 = None
                     st.success("Selections have been reset. You can choose new verbs.")
 
-                # Display verbs with checkboxes
                 selected_verb_indices = []
                 for i, row in verb_data.iterrows():
                     verb = row['Verb']
                     if st.checkbox(verb, key=f'verb_checkbox_{i}'):
                         selected_verb_indices.append(i)
 
-                # Submit button to collect selected verbs
                 if st.button("Submit Selection", key="submit_selection"):
                     st.session_state.selected_verbs = verb_data.loc[selected_verb_indices, 'Verb'].tolist()
                     st.session_state.test_verbs_tab2 = st.session_state.selected_verbs.copy()
                     st.session_state.test_verbs_tab3 = st.session_state.selected_verbs.copy()
                     st.session_state.test_verbs_tab4 = st.session_state.selected_verbs.copy()
                     st.success(f"Selected verbs: {st.session_state.selected_verbs}")
-
-            # Tab 2: Practice Regularity
-            with tab2:
-                st.header("Practice Regularity")
-
-                if not st.session_state.selected_verbs:
-                    st.warning("No verbs selected. Please go to Tab 1 and select verbs first.")
-                else:
-                    if not st.session_state.test_verbs_tab2:
-                        st.success("Completed! You practiced all the selected verbs.")
-                    else:
-                        if not st.session_state.current_verb_tab2:
-                            st.session_state.current_verb_tab2 = random.choice(st.session_state.test_verbs_tab2)
-                            st.session_state.feedback_tab2 = ""
-
-                        st.write(f"Is '{st.session_state.current_verb_tab2}' regular or irregular?")
-                        answer = st.radio("Choose one:", ["Regular", "Irregular"], key="answer_radio_tab2")
-
-                        if st.button("Submit Answer", key="submit_answer_tab2"):
-                            correct_answer = verb_data.loc[
-                                verb_data['Verb'] == st.session_state.current_verb_tab2, 'Regularity'
-                            ].values[0]
-                            if answer.lower() == correct_answer.lower():
-                                st.session_state.feedback_tab2 = f"Correct: {st.session_state.current_verb_tab2} is {correct_answer}."
-                                st.session_state.test_verbs_tab2.remove(st.session_state.current_verb_tab2)
-                            else:
-                                st.session_state.feedback_tab2 = f"Incorrect: {st.session_state.current_verb_tab2} is {correct_answer}."
-
-                            st.write(st.session_state.feedback_tab2)
-                            st.session_state.current_verb_tab2 = None
-
-            # Tab 3: Practice Past and Past Participle
-            with tab3:
-                st.header("Practice Past and Past Participle")
-
-                if not st.session_state.selected_verbs:
-                    st.warning("No verbs selected. Please go to Tab 1 and select verbs first.")
-                else:
-                    if not st.session_state.test_verbs_tab3:
-                        st.success("Completed! You practiced all the selected verbs.")
-                    else:
-                        if not st.session_state.current_verb_tab3:
-                            st.session_state.current_verb_tab3 = random.choice(st.session_state.test_verbs_tab3)
-                            st.session_state.feedback_tab3 = ""
-
-                        st.write(f"Provide the past and past participle forms of '{st.session_state.current_verb_tab3}'.")
-
-                        past_answer = st.text_input("Past:", key="past_answer_tab3")
-                        pp_answer = st.text_input("Past Participle:", key="pp_answer_tab3")
-
-                        if st.button("Submit Answer", key="submit_answer_tab3"):
-                            correct_past = verb_data.loc[
-                                verb_data['Verb'] == st.session_state.current_verb_tab3, 'Past'
-                            ].values[0]
-                            correct_pp = verb_data.loc[
-                                verb_data['Verb'] == st.session_state.current_verb_tab3, 'PP'
-                            ].values[0]
-
-                            if (past_answer.lower() == correct_past.lower() and
-                                    pp_answer.lower() == correct_pp.lower()):
-                                st.session_state.feedback_tab3 = f"Correct: {st.session_state.current_verb_tab3} - {correct_past} - {correct_pp}."
-                                st.session_state.test_verbs_tab3.remove(st.session_state.current_verb_tab3)
-                            else:
-                                st.session_state.feedback_tab3 = f"Incorrect: {st.session_state.current_verb_tab3} - {correct_past} - {correct_pp}."
-
-                            st.write(st.session_state.feedback_tab3)
-                            st.session_state.current_verb_tab3 = None
 
             # Tab 4: Practice with Sounds
             with tab4:
@@ -186,4 +116,16 @@ if data_url:
                             feedback_audio = gTTS(feedback_text, lang='en')
                             feedback_audio_path = f"{verb}_feedback.mp3"
                             feedback_audio.save(feedback_audio_path)
-                           
+                            st.session_state.feedback_audio_path = feedback_audio_path
+
+                        # Play feedback audio
+                        if st.session_state.feedback_audio_path:
+                            st.audio(st.session_state.feedback_audio_path, format="audio/mp3")
+
+                        # Next question button
+                        if st.button("Next Question", key="next_question_tab4"):
+                            st.session_state.current_verb_tab4 = None
+                            st.session_state.feedback_audio_path = None
+
+    except Exception as e:
+        st.error(f"Error loading data: {str(e)}")
