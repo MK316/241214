@@ -1,7 +1,7 @@
 import streamlit as st
 import random
 
-# Sample verb dictionary
+# Define verbs
 verbs = {
     'ask': ['asked', 'asked'],
     'be': ['was/were', 'been'],
@@ -10,7 +10,6 @@ verbs = {
     'choose': ['chose', 'chosen']
 }
 
-# Functions for quiz logic
 def start_quiz():
     st.session_state.quiz_list = random.sample(list(verbs.items()), k=st.session_state.verb_count)
     st.session_state.remaining = len(st.session_state.quiz_list)
@@ -18,9 +17,10 @@ def start_quiz():
 
 def get_next_verb():
     if st.session_state.quiz_list:
-        verb, forms = st.session_state.quiz_list.pop()
+        verb, forms = st.session_state.quiz_list.pop(0)
         st.session_state.current_verb = verb
         st.session_state.current_form = random.choice(['past', 'past participle'])
+        st.session_state.answer_checked = False  # Reset check flag
     else:
         st.session_state.current_verb = None
         st.success("Quiz completed! Great job!")
@@ -30,32 +30,31 @@ def check_answer():
     correct_form = forms[0] if st.session_state.current_form == 'past' else forms[1]
     if st.session_state.user_answer.lower().strip() == correct_form.lower():
         st.success("Correct! Good job!")
-        st.session_state.score += 1
+        st.session_state.answer_checked = True  # Mark the answer as checked
     else:
         st.error("Incorrect. Try again!")
-    get_next_verb()
 
-# Setting up the app interface with tabs
-tabs = st.tabs(["Verb List", "Verb Practice"])
+# Streamlit app layout
+st.header("Verb Tense Practice App")
+if 'quiz_list' not in st.session_state:
+    st.session_state.verb_count = 5
+    st.session_state.answer_checked = False
 
-with tabs[0]:
-    st.header("List of English Verbs")
-    for verb, forms in verbs.items():
-        st.write(f"**{verb}** - Past: {forms[0]}, Past Participle: {forms[1]}")
+verb_count = st.number_input("How many verbs would you like to practice?", min_value=1, max_value=len(verbs), value=st.session_state.verb_count)
+st.session_state.verb_count = verb_count
 
-with tabs[1]:
-    st.header("Verb Practice")
-    if 'verb_count' not in st.session_state:
-        st.session_state.verb_count = 5  # Default number of verbs to practice
-    verb_count = st.number_input("How many verbs would you like to practice?", min_value=1, max_value=len(verbs), value=st.session_state.verb_count)
-    st.session_state.verb_count = verb_count  # Update session state
+if st.button("Start Quiz") or 'current_verb' not in st.session_state:
+    start_quiz()
 
-    if st.button("Start Quiz"):
-        start_quiz()
+if 'current_verb' in st.session_state and st.session_state.current_verb:
+    form_type = "past" if st.session_state.current_form == 'past' else "past participle"
+    question = f"What is the {form_type} form of '{st.session_state.current_verb}'?"
+    st.write(question)
+    user_answer = st.text_input("Your answer:", key="user_answer")
 
-    if 'current_verb' in st.session_state and st.session_state.current_verb:
-        form_type = st.session_state.current_form
-        st.write(f"What is the {form_type} form of '{st.session_state.current_verb}'?")
-        st.session_state.user_answer = st.text_input("Your answer:")
-        if st.button("Check Answer"):
-            check_answer()
+    if st.button("Check Answer"):
+        check_answer()
+
+    if st.session_state.answer_checked:  # Only show Next button if the answer has been checked
+        if st.button("Next"):
+            get_next_verb()
