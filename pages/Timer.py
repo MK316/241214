@@ -118,8 +118,16 @@ if st.session_state.countdown_started and not st.session_state.time_up:
     progress_placeholder.pyplot(fig)
     # countdown_placeholder.write("⏰ **Time's Up!**")
 
-    # Play the sound using Streamlit's audio player
-    audio_file = open("./data/timesup.mp3", "rb")
-    st.audio(audio_file.read(), format="audio/mp3")
+# Hosted URL as a fallback
+audio_url = "https://github.com/MK316/241214/raw/main/data/timesup.mp3"
+
+# Play the audio with user interaction
+if st.button("Play 'Time's Up' Audio"):
+    try:
+        with open("timesup.mp3", "rb") as audio_file:
+            st.audio(audio_file.read(), format="audio/mp3")
+    except FileNotFoundError:
+        st.audio(audio_url)  # Use the hosted file as a backup
+
 
     st.session_state.countdown_started = False
