@@ -10,7 +10,7 @@ verbs = {
     'choose': ['chose', 'chosen']
 }
 
-# Initialize or reset session state variables if not already set
+# Initialize or reset session state variables
 if 'quiz_list' not in st.session_state:
     st.session_state.quiz_list = []
 if 'current_index' not in st.session_state:
@@ -55,14 +55,12 @@ def check_answer():
 # Main layout
 st.header("Verb Tense Practice App")
 
-# Verb count input
-if 'verb_count' not in st.session_state:
-    st.session_state.verb_count = 5
-st.session_state.verb_count = st.number_input(
+# Verb count input (rely entirely on key)
+st.number_input(
     "How many verbs would you like to practice?",
     min_value=1,
     max_value=len(verbs),
-    value=st.session_state.verb_count,
+    value=5,
     key="verb_count"
 )
 
