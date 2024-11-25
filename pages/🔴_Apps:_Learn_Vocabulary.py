@@ -19,6 +19,8 @@ if 'current_verb' not in st.session_state:
     st.session_state.current_verb = None
 if 'current_form' not in st.session_state:
     st.session_state.current_form = None
+if 'correct_answer' not in st.session_state:
+    st.session_state.correct_answer = None
 if 'quiz_started' not in st.session_state:
     st.session_state.quiz_started = False
 
@@ -46,7 +48,7 @@ def load_next_verb():
 def check_answer():
     if st.session_state.current_verb:
         user_answer = st.session_state.user_answer.strip().lower()
-        correct_answer = st.session_state.correct_answer.lower()
+        correct_answer = st.session_state.correct_answer.strip().lower()
         if user_answer == correct_answer:
             st.success("Correct! Good job!")
         else:
