@@ -207,4 +207,19 @@ with tab3:
             user_answers = [word.strip().lower() for word in user_input.split(",")]
             if user_answers == correct_answers:
                 st.session_state.feedback_tab3 = "Correct! Well done."
-                st.session_state.remaining_sentences_tab3.remove
+                st.session_state.remaining_sentences_tab3.remove(current_sentence_data)  # Remove completed question
+            else:
+                st.session_state.feedback_tab3 = f"Incorrect. The correct answer(s) is/are: {', '.join(correct_answers)}."
+            st.session_state.show_next_question_tab3 = True
+
+        # Submit Answer button
+        if not st.session_state.show_next_question_tab3:
+            st.button("Submit Answer", on_click=check_answer_tab3)
+
+        # Display feedback
+        if st.session_state.feedback_tab3:
+            st.write(st.session_state.feedback_tab3)
+
+        # Show "Next Question" button if feedback is displayed
+        if st.session_state.show_next_question_tab3:
+            st.button("Next Question", on_click=next_question_tab3)
