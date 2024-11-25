@@ -20,8 +20,7 @@ def main():
     # Fall 2024 content
     with tabs[0]:
     #    st.subheader("Digital Literacy & English Education")
-        st.markdown("🔲 **디지털 리터러시와 영어 교육**")
-        st.markdown("+ 대상: 2학년 예비 영어 교사")
+        st.markdown("🔲 **디지털 리터러시와 영어 교육 (대상: 2학년 예비 영어 교사)**")
         st.caption("이 강좌는 예비 영어 교사를 대상으로 디지털 리터러시와 AI 리터러시를 소개하여, 졸업 후 교사로서 미래 디지털 환경에 적응하고 선도할 수 있는 역량을 기르는 것을 목표로 함.")
         st.markdown("🔲 **강의 내용:**")
         st.markdown("1. **기초코딩**")
