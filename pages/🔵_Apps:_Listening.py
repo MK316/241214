@@ -6,7 +6,7 @@ import random
 images = [
     "https://github.com/MK316/241214/raw/main/image/dog.jpg",
     "https://github.com/MK316/241214/raw/main/image/cat.jpg",
-    "https://github.com/MK316/241214/raw/main/image/bird.png"
+    "https://github.com/MK316/241214/raw/main/image/bird.jpg"
 ]
 
 # Tab structure
