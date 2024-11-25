@@ -53,7 +53,7 @@ if data_url:
             # Tab 1: Select verbs
             with tab1:
                 st.header("Select Verbs for Practice")
-                st.caption("Note: The selected verbs will appear in your practices.
+                st.caption("Note: The selected verbs will appear in your practices.")
                 # Reset selection button
                 if st.button("Reset Selection", key="reset_selection"):
                     for i in range(len(verb_data)):
