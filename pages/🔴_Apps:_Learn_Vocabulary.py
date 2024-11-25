@@ -11,6 +11,7 @@ verbs = {
 }
 
 def initialize_quiz():
+    # Ensure the verb count is initialized from the session state
     st.session_state.quiz_list = random.sample(list(verbs.items()), k=st.session_state.verb_count)
     st.session_state.current_index = 0
     load_next_verb()
@@ -27,14 +28,18 @@ def load_next_verb():
 def check_answer():
     verb, forms = verbs[st.session_state.current_verb]
     correct_form = forms[0] if st.session_state.current_form == 'past' else forms[1]
-    user_answer = st.session_state.user_answer.strip().lower()
-    if user_answer == correct_form.lower():
+    if st.session_state.user_answer.lower().strip() == correct_form.lower():
         st.success("Correct! Good job!")
     else:
         st.error(f"Incorrect. The correct answer was '{correct_form}'. Try again!")
 
 st.header("Verb Tense Practice App")
-st.session_state.verb_count = st.number_input("How many verbs would you like to practice?", min_value=1, max_value=len(verbs), value=5, key='verb_count')
+# Initialize verb_count if not already in session state
+if 'verb_count' not in st.session_state:
+    st.session_state.verb_count = 5
+
+# Setup number input with key, which automatically manages session state
+verb_count = st.number_input("How many verbs would you like to practice?", min_value=1, max_value=len(verbs), value=st.session_state.verb_count, key='verb_count')
 
 if st.button("Start Quiz"):
     initialize_quiz()
