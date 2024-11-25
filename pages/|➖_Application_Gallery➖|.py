@@ -22,7 +22,7 @@ def yellow_button(label, url):
     st.markdown(button_html, unsafe_allow_html=True)
 
 # Add tabs
-tab1, tab2, tab3, tab4, tab5 = st.tabs(["APP 1", "APP 2", "APP 3", "APP 4", "APP 5"])
+tab1, tab2, tab3, tab4, tab5 = st.tabs(["🍏 APP 1", "🍰 APP 2", "🍬 APP 3", "🍩 APP 4", "🍒 APP 5"])
 
 # Tab 1
 with tab1:
