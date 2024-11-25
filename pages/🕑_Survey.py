@@ -7,9 +7,14 @@ import pandas as pd
 
 # Google Sheets setup
 scope = ['https://spreadsheets.google.com/feeds', 'https://www.googleapis.com/auth/drive']
-creds = ServiceAccountCredentials.from_json_keyfile_name('https://drive.google.com/file/d/1anqMOdrHzlTKPfijOBU0DQRaKfRI4TRp/view?usp=sharing', scope)
+
+# Load credentials from Streamlit Secrets
+creds_json = json.loads(st.secrets["GOOGLE_APPLICATION_CREDENTIALS_JSON"])
+creds = Credentials.from_service_account_info(creds_json, scopes=scope)
+
+# Authenticate with Google Sheets
 client = gspread.authorize(creds)
-sheet = client.open('Survey Results').sheet1  # Open the first sheet
+sheet = client.open('Survey Results').sheet1  
 
 def store_survey_response(color, beverage, work_pref, environment):
     sheet.append_row([color, beverage, work_pref, environment])
