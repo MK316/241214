@@ -29,19 +29,15 @@ if uploaded_file:
             st.header("Select Verbs for Practice")
 
             # Display verbs with checkboxes
-            for _, row in verb_data.iterrows():
+            selected_verb_indices = []
+            for i, row in verb_data.iterrows():
                 verb = row['Verb']
-                if 'selected_verb_' + verb not in st.session_state:
-                    st.session_state['selected_verb_' + verb] = False
-                st.session_state['selected_verb_' + verb] = st.checkbox(verb, key='selected_verb_' + verb)
+                if st.checkbox(verb, key=f'verb_checkbox_{i}'):
+                    selected_verb_indices.append(i)
 
             # Submit button to collect selected verbs
             if st.button("Submit Selection"):
-                st.session_state.selected_verbs = [
-                    row['Verb']
-                    for _, row in verb_data.iterrows()
-                    if st.session_state['selected_verb_' + row['Verb']]
-                ]
+                st.session_state.selected_verbs = verb_data.loc[selected_verb_indices, 'Verb'].tolist()
                 st.session_state.test_verbs = st.session_state.selected_verbs.copy()
                 st.success(f"Selected verbs: {st.session_state.selected_verbs}")
 
@@ -64,7 +60,7 @@ if uploaded_file:
                     answer = st.radio(
                         "Choose one:",
                         options=["Regular", "Irregular"],
-                        key='answer',
+                        key='answer_radio',
                     )
 
                     # Submit button for answering
