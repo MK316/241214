@@ -21,7 +21,7 @@ def green_button(label, url):
     st.markdown(button_html, unsafe_allow_html=True)
 
 # Add tabs
-tab1, tab2, tab3, tab4, tab5, tab6 = st.tabs(["Python", "Coding", "Github", "Gradio", "Huggingface", "Streamlit"])
+tab1, tab2, tab3, tab4, tab5, tab6 = st.tabs(["📍Python", "📍Coding", "📍Github", "📍Gradio", "📍Huggingface", "📍Streamlit"])
 
 # Tab 1: Python
 with tab1:
