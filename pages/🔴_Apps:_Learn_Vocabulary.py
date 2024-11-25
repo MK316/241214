@@ -23,12 +23,15 @@ if 'correct_answer' not in st.session_state:
     st.session_state.correct_answer = None
 if 'quiz_started' not in st.session_state:
     st.session_state.quiz_started = False
+if 'feedback_given' not in st.session_state:
+    st.session_state.feedback_given = False
 
 # Function to initialize the quiz
 def initialize_quiz():
     st.session_state.quiz_list = random.sample(list(verbs.items()), k=st.session_state.verb_count)
     st.session_state.current_index = 0
     st.session_state.quiz_started = True
+    st.session_state.feedback_given = False
     load_next_verb()
 
 # Function to load the next verb
@@ -38,7 +41,7 @@ def load_next_verb():
         st.session_state.current_verb = verb
         st.session_state.current_form = random.choice(['past', 'past participle'])
         st.session_state.correct_answer = forms[0] if st.session_state.current_form == 'past' else forms[1]
-        st.session_state.current_index += 1
+        st.session_state.feedback_given = False  # Reset feedback state for the new question
     else:
         st.session_state.current_verb = None
         st.success("Quiz completed! Great job!")
@@ -53,6 +56,7 @@ def check_answer():
             st.success("Correct! Good job!")
         else:
             st.error(f"Incorrect. The correct answer was '{st.session_state.correct_answer}'.")
+        st.session_state.feedback_given = True  # Mark feedback as given
 
 # Main layout
 st.header("Verb Tense Practice App")
@@ -77,9 +81,10 @@ if st.session_state.quiz_started and st.session_state.current_verb:
     st.text_input("Your answer:", key="user_answer")  # Managed directly by Streamlit
 
     # Check answer button
-    if st.button("Check Answer"):
+    if not st.session_state.feedback_given and st.button("Check Answer"):
         check_answer()
 
     # Next question button
-    if st.button("Next"):
+    if st.session_state.feedback_given and st.button("Next"):
+        st.session_state.current_index += 1
         load_next_verb()
