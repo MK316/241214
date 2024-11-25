@@ -15,7 +15,9 @@ creds = Credentials.from_service_account_info(creds_json, scopes=scope)
 
 # Authenticate with Google Sheets
 client = gspread.authorize(creds)
-sheet = client.open('Survey Results').sheet1  
+
+spreadsheet_id="12ceIWqSA7MUNVNgsA9JHfZWMbZZ4vGdL97BP-gSTvew"
+sheet = client.open_by_key(spreadsheet_id).sheet1  
 
 def store_survey_response(color, beverage, work_pref, environment):
     sheet.append_row([color, beverage, work_pref, environment])
