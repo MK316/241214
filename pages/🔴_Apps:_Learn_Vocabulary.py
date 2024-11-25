@@ -41,21 +41,20 @@ def load_next_verb():
         st.session_state.current_verb = verb
         st.session_state.current_form = random.choice(['past', 'past participle'])
         st.session_state.correct_answer = forms[0] if st.session_state.current_form == 'past' else forms[1]
-        st.session_state.feedback_shown = False
+        st.session_state.feedback_shown = False  # Reset feedback state for the new question
     else:
         st.session_state.quiz_started = False
         st.session_state.current_verb = None
 
 # Function to check the user's answer
-def check_answer():
-    if st.session_state.current_verb:
-        user_answer = st.session_state.user_answer.strip().lower()
-        correct_answer = st.session_state.correct_answer.strip().lower()
-        if user_answer == correct_answer:
-            st.success("Correct! Good job!")
-        else:
-            st.error(f"Incorrect. The correct answer was '{st.session_state.correct_answer}'.")
-        st.session_state.feedback_shown = True  # Mark feedback as shown
+def check_answer(user_answer):
+    user_answer = user_answer.strip().lower()
+    correct_answer = st.session_state.correct_answer.strip().lower()
+    if user_answer == correct_answer:
+        st.success("Correct! Good job!")
+    else:
+        st.error(f"Incorrect. The correct answer was '{st.session_state.correct_answer}'.")
+    st.session_state.feedback_shown = True
 
 # Main layout
 st.header("Verb Tense Practice App")
@@ -73,21 +72,21 @@ st.number_input(
 if st.button("Start Quiz"):
     initialize_quiz()
 
-# Display current question and answer input
+# Display current question and handle progression
 if st.session_state.quiz_started and st.session_state.current_verb:
-    if not st.session_state.feedback_shown:
-        # Show the current question
-        form_type = "past" if st.session_state.current_form == 'past' else "past participle"
-        st.write(f"What is the {form_type} form of '{st.session_state.current_verb}'?")
-        user_answer = st.text_input("Your answer:", key="user_answer")
+    form_type = "past" if st.session_state.current_form == 'past' else "past participle"
+    st.write(f"What is the {form_type} form of '{st.session_state.current_verb}'?")
+    user_answer = st.text_input("Your answer:", key="user_answer")
 
-        if st.button("Submit Answer"):
-            check_answer()
-    else:
-        # Show feedback and a button to load the next question
-        if st.button("Next Question"):
-            st.session_state.current_index += 1
-            load_next_verb()
+    if user_answer and not st.session_state.feedback_shown:
+        check_answer(user_answer)
+
+    # Automatically move to the next question after feedback
+    if st.session_state.feedback_shown:
+        st.session_state.current_index += 1
+        load_next_verb()
+        st.session_state.feedback_shown = False
+        st.experimental_rerun()  # Trigger a re-run to display the next question
 else:
     if not st.session_state.quiz_started:
         st.success("Quiz completed! Great job!")
