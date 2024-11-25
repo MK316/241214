@@ -9,7 +9,7 @@ image_urls = {
     "bird": "https://github.com/MK316/241214/raw/main/image/bird.jpg"
 }
 
-# List of dictation sentences
+# Example dictation sentences
 dictation_sentences = [
     "The quick brown fox jumps over the lazy dog.",
     "Streamlit is a powerful tool for building apps.",
@@ -17,6 +17,19 @@ dictation_sentences = [
     "The cat is sleeping on the couch.",
     "Birds are chirping in the morning."
 ]
+
+# Example sentences with blanks for Tab 3
+fill_in_the_gap_data = [
+    {"full_sentence": "The cat is sleeping on the couch.", "gap_sentence": "The ___ is sleeping on the couch.", "answers": ["cat"]},
+    {"full_sentence": "The dog barked at the stranger.", "gap_sentence": "The ___ barked at the stranger.", "answers": ["dog"]},
+    {"full_sentence": "Birds are chirping in the morning.", "gap_sentence": "___ are chirping in the morning.", "answers": ["birds"]},
+]
+
+# Initialize session state for Tab 1
+if "target" not in st.session_state:
+    st.session_state.target = random.choice(list(image_urls.keys()))
+if "feedback_tab1" not in st.session_state:
+    st.session_state.feedback_tab1 = ""
 
 # Initialize session state for Tab 2
 if "remaining_sentences_tab2" not in st.session_state:
@@ -28,8 +41,22 @@ if "feedback_tab2" not in st.session_state:
 if "show_next_question_tab2" not in st.session_state:
     st.session_state.show_next_question_tab2 = False
 
-# Function to reset for the next dictation sentence
-def next_sentence_tab2():
+# Initialize session state for Tab 3
+if "remaining_sentences_tab3" not in st.session_state:
+    st.session_state.remaining_sentences_tab3 = fill_in_the_gap_data.copy()
+if "current_sentence_tab3" not in st.session_state:
+    st.session_state.current_sentence_tab3 = None
+if "feedback_tab3" not in st.session_state:
+    st.session_state.feedback_tab3 = ""
+if "show_next_question_tab3" not in st.session_state:
+    st.session_state.show_next_question_tab3 = False
+
+# Functions to reset state for each tab
+def next_question_tab1():
+    st.session_state.target = random.choice(list(image_urls.keys()))
+    st.session_state.feedback_tab1 = ""
+
+def next_question_tab2():
     if st.session_state.remaining_sentences_tab2:
         st.session_state.current_sentence_tab2 = random.choice(st.session_state.remaining_sentences_tab2)
         st.session_state.feedback_tab2 = ""
@@ -37,12 +64,69 @@ def next_sentence_tab2():
     else:
         st.session_state.current_sentence_tab2 = None
 
-# Start the first sentence if not already set
+def next_question_tab3():
+    if st.session_state.remaining_sentences_tab3:
+        st.session_state.current_sentence_tab3 = random.choice(st.session_state.remaining_sentences_tab3)
+        st.session_state.feedback_tab3 = ""
+        st.session_state.show_next_question_tab3 = False
+    else:
+        st.session_state.current_sentence_tab3 = None
+
+# Start the first question if not already set
 if not st.session_state.current_sentence_tab2 and st.session_state.remaining_sentences_tab2:
-    st.session_state.current_sentence_tab2 = random.choice(st.session_state.remaining_sentences_tab2)
+    next_question_tab2()
+if not st.session_state.current_sentence_tab3 and st.session_state.remaining_sentences_tab3:
+    next_question_tab3()
 
 # Tab structure
 tab1, tab2, tab3 = st.tabs(["Audio Quiz: Match the Sound", "Dictation Practice", "Fill-in-the-Gap Listening"])
+
+# Tab 1: Audio Quiz - Match the Sound
+with tab1:
+    st.header("Audio Quiz: Match the Sound")
+    st.write("Listen to the audio and choose the image that matches the sound.")
+
+    # Generate audio for the target
+    target = st.session_state.target
+    tts = gTTS(text=f"The sound is {target}.", lang="en")
+    tts_file = f"{target}_audio.mp3"
+    tts.save(tts_file)
+
+    # Play the audio
+    st.audio(tts_file, format="audio/mp3")
+
+    # Display image options
+    col1, col2, col3 = st.columns(3)
+    with col1:
+        st.image(image_urls["dog"], caption="Dog")
+        if st.button("Select Dog", key="select_dog"):
+            if target == "dog":
+                st.session_state.feedback_tab1 = "Correct! The sound was 'Dog'."
+            else:
+                st.session_state.feedback_tab1 = f"Incorrect. The correct answer was '{target.capitalize()}'."
+            next_question_tab1()
+
+    with col2:
+        st.image(image_urls["cat"], caption="Cat")
+        if st.button("Select Cat", key="select_cat"):
+            if target == "cat":
+                st.session_state.feedback_tab1 = "Correct! The sound was 'Cat'."
+            else:
+                st.session_state.feedback_tab1 = f"Incorrect. The correct answer was '{target.capitalize()}'."
+            next_question_tab1()
+
+    with col3:
+        st.image(image_urls["bird"], caption="Bird")
+        if st.button("Select Bird", key="select_bird"):
+            if target == "bird":
+                st.session_state.feedback_tab1 = "Correct! The sound was 'Bird'."
+            else:
+                st.session_state.feedback_tab1 = f"Incorrect. The correct answer was '{target.capitalize()}'."
+            next_question_tab1()
+
+    # Display feedback
+    if st.session_state.feedback_tab1:
+        st.write(st.session_state.feedback_tab1)
 
 # Tab 2: Dictation Practice
 with tab2:
@@ -63,13 +147,13 @@ with tab2:
         # Play the audio
         st.audio(tts_file, format="audio/mp3")
 
-        # Text input for user to type the dictation
+        # Text input for user's answer
         user_input = st.text_area("Type what you hear:", key="dictation_input_tab2")
 
         # Callback function to check the user's answer
         def check_answer_tab2():
             if user_input.strip().lower() == current_sentence.lower():
-                st.session_state.feedback_tab2 = "Correct! Well done!"
+                st.session_state.feedback_tab2 = "Correct! Well done."
                 st.session_state.remaining_sentences_tab2.remove(current_sentence)  # Remove completed sentence
             else:
                 st.session_state.feedback_tab2 = f"Incorrect. The correct sentence was: '{current_sentence}'."
@@ -84,38 +168,7 @@ with tab2:
 
         # Show "Next Sentence" button if feedback is displayed
         if st.session_state.show_next_question_tab2:
-            st.button("Next Sentence", on_click=next_sentence_tab2)
-
-# Tab 3: Fill-in-the-Gap Listening
-# Example sentences with blanks
-fill_in_the_gap_data = [
-    {"full_sentence": "The cat is sleeping on the couch.", "gap_sentence": "The ___ is sleeping on the couch.", "answers": ["cat"]},
-    {"full_sentence": "The dog barked at the stranger.", "gap_sentence": "The ___ barked at the stranger.", "answers": ["dog"]},
-    {"full_sentence": "Birds are chirping in the morning.", "gap_sentence": "___ are chirping in the morning.", "answers": ["birds"]},
-]
-
-# Initialize session state for Tab 3
-if "remaining_sentences_tab3" not in st.session_state:
-    st.session_state.remaining_sentences_tab3 = fill_in_the_gap_data.copy()
-if "current_sentence_tab3" not in st.session_state:
-    st.session_state.current_sentence_tab3 = None
-if "feedback_tab3" not in st.session_state:
-    st.session_state.feedback_tab3 = ""
-if "show_next_question_tab3" not in st.session_state:
-    st.session_state.show_next_question_tab3 = False
-
-# Function to reset for the next sentence
-def next_question_tab3():
-    if st.session_state.remaining_sentences_tab3:
-        st.session_state.current_sentence_tab3 = random.choice(st.session_state.remaining_sentences_tab3)
-        st.session_state.feedback_tab3 = ""
-        st.session_state.show_next_question_tab3 = False
-    else:
-        st.session_state.current_sentence_tab3 = None
-
-# Start the first sentence if not already set
-if not st.session_state.current_sentence_tab3 and st.session_state.remaining_sentences_tab3:
-    st.session_state.current_sentence_tab3 = random.choice(st.session_state.remaining_sentences_tab3)
+            st.button("Next Sentence", on_click=next_question_tab2)
 
 # Tab 3: Fill-in-the-Gap Listening
 with tab3:
@@ -154,18 +207,4 @@ with tab3:
             user_answers = [word.strip().lower() for word in user_input.split(",")]
             if user_answers == correct_answers:
                 st.session_state.feedback_tab3 = "Correct! Well done."
-                st.session_state.remaining_sentences_tab3.remove(current_sentence_data)  # Remove completed sentence
-            else:
-                st.session_state.feedback_tab3 = f"Incorrect. The correct answer(s) is/are: {', '.join(correct_answers)}."
-            st.session_state.show_next_question_tab3 = True
-
-        # Submit Answer button
-        st.button("Submit Answer", on_click=check_answer_tab3)
-
-        # Display feedback
-        if st.session_state.feedback_tab3:
-            st.write(st.session_state.feedback_tab3)
-
-        # Show "Next Question" button if feedback is displayed
-        if st.session_state.show_next_question_tab3:
-            st.button("Next Question", on_click=next_question_tab3)
+                st.session_state.remaining_sentences_tab3.remove
