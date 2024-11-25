@@ -49,13 +49,13 @@ with tab4:
     green_button("Explore Gradio", "https://gradio.app")
 
 # Tab 5: Huggingface
-with tab6:
+with tab5:
     st.header("Tab 5: Huggingface")
     st.write("Huggingface provides tools and libraries for natural language processing and machine learning, including pre-trained models.")
     green_button("Discover Huggingface", "https://huggingface.co")
 
 # Tab 6: Streamlit
-with tab7:
+with tab6:
     st.header("Tab 6: Streamlit")
     st.write("Streamlit is a Python library that enables you to build interactive web applications for data science and machine learning.")
     green_button("Visit Streamlit", "https://streamlit.io")
