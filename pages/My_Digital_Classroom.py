@@ -15,24 +15,29 @@ def main():
     st.caption('My digital classroom: Github platform')
 
     # Set up tabs
-    tabs = st.tabs(["📗 Fall 2024", "📓 Spring 2024", "📓 Fall 2023", "📓 Spring 2023", "〽️ 2022"])
+    tabs = st.tabs(["DL&EE", "📗 Fall 2024", "📓 Spring 2024", "📓 Fall 2023", "📓 Spring 2023", "〽️ 2022"])
 
     # Fall 2024 content
     with tabs[0]:
+    #    st.subheader("Digital Literacy & English Education")
+        st.caption("How did all begin....")
+
+    with tabs[1]:
     #    st.subheader("Fall 2024 Courses")
         fall_url = 'https://github.com/MK316/MK-316/blob/main/pages/fall2024.md'
         fall_content = fetch_github_readme(fall_url)
         st.markdown(fall_content, unsafe_allow_html=True)
-
+   
+    
     # Spring 2024 content
-    with tabs[1]:
+    with tabs[2]:
     #    st.subheader("Spring 2024 Courses")
         spring_url = 'https://github.com/MK316/MK-316/blob/main/pages/spring2024.md'
         spring_content = fetch_github_readme(spring_url)
         st.markdown(spring_content, unsafe_allow_html=True)
 
     # Additional Content tab (optional)
-    with tabs[2]:
+    with tabs[3]:
     #    st.subheader("Fall 2023 Courses")
         # Placeholder URL for additional content if needed
         # Uncomment and update the URL if you have content for this tab
@@ -41,7 +46,7 @@ def main():
         st.markdown(additional_content, unsafe_allow_html=True)
 
 
-    with tabs[3]:
+    with tabs[4]:
         # st.subheader("Spring 2023 Courses")
         # Placeholder URL for additional content if needed
         # Uncomment and update the URL if you have content for this tab
@@ -50,7 +55,7 @@ def main():
         st.markdown(additional_content, unsafe_allow_html=True)
 
     # Additional Content tab (optional)
-    with tabs[4]:
+    with tabs[5]:
         st.subheader("Started to learn Python coding since Feb. 2022")
         # Placeholder URL for additional content if needed
         # Uncomment and update the URL if you have content for this tab
