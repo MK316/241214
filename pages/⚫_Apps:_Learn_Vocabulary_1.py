@@ -80,36 +80,45 @@ if data_url:
                     st.session_state.test_verbs_tab4 = st.session_state.selected_verbs.copy()
                     st.success(f"Selected verbs: {st.session_state.selected_verbs}")
 
-            # Tab 2: Practice Regularity
-            with tab2:
-                st.header("Practice Regularity")
-
-                if not st.session_state.selected_verbs:
-                    st.warning("No verbs selected. Please go to Tab 1 and select verbs first.")
+        # Initialize additional session state
+        if 'proceed_to_next_tab2' not in st.session_state:
+            st.session_state.proceed_to_next_tab2 = False
+        
+        # Callback for next button
+        def next_verb_tab2():
+            st.session_state.proceed_to_next_tab2 = True
+        
+        # Tab 2: Practice Regularity
+        with tab2:
+            st.header("Practice Regularity")
+        
+            if not st.session_state.selected_verbs:
+                st.warning("No verbs selected. Please go to Tab 1 and select verbs first.")
+            else:
+                if not st.session_state.test_verbs_tab2:
+                    st.success("Completed! You practiced all the selected verbs.")
                 else:
-                    if not st.session_state.test_verbs_tab2:
-                        st.success("Completed! You practiced all the selected verbs.")
-                    else:
-                        if not st.session_state.current_verb_tab2:
-                            st.session_state.current_verb_tab2 = random.choice(st.session_state.test_verbs_tab2)
-                            st.session_state.feedback_tab2 = ""
-
-                        st.write(f"Is '{st.session_state.current_verb_tab2}' regular or irregular?")
-                        answer = st.radio("Choose one:", ["Regular", "Irregular"], key="answer_radio_tab2")
-
-                        if st.button("Submit Answer", key="submit_answer_tab2"):
-                            correct_answer = verb_data.loc[
-                                verb_data['Verb'] == st.session_state.current_verb_tab2, 'Regularity'
-                            ].values[0]
-                            if answer.lower() == correct_answer.lower():
-                                st.session_state.feedback_tab2 = f"Correct: {st.session_state.current_verb_tab2} is {correct_answer}."
-                                st.session_state.test_verbs_tab2.remove(st.session_state.current_verb_tab2)
-                            else:
-                                st.session_state.feedback_tab2 = f"Incorrect: {st.session_state.current_verb_tab2} is {correct_answer}."
-
-                            st.write(st.session_state.feedback_tab2)
-
-                        st.button("Next", key="next_tab2", on_click=next_verb_tab2)
+                    if st.session_state.proceed_to_next_tab2 or not st.session_state.current_verb_tab2:
+                        st.session_state.current_verb_tab2 = random.choice(st.session_state.test_verbs_tab2)
+                        st.session_state.feedback_tab2 = ""
+                        st.session_state.proceed_to_next_tab2 = False  # Reset the flag
+        
+                    st.write(f"Is '{st.session_state.current_verb_tab2}' regular or irregular?")
+                    answer = st.radio("Choose one:", ["Regular", "Irregular"], key="answer_radio_tab2")
+        
+                    if st.button("Submit Answer", key="submit_answer_tab2"):
+                        correct_answer = verb_data.loc[
+                            verb_data['Verb'] == st.session_state.current_verb_tab2, 'Regularity'
+                        ].values[0]
+                        if answer.lower() == correct_answer.lower():
+                            st.session_state.feedback_tab2 = f"Correct: {st.session_state.current_verb_tab2} is {correct_answer}."
+                            st.session_state.test_verbs_tab2.remove(st.session_state.current_verb_tab2)
+                        else:
+                            st.session_state.feedback_tab2 = f"Incorrect: {st.session_state.current_verb_tab2} is {correct_answer}."
+        
+                        st.write(st.session_state.feedback_tab2)
+        
+                    st.button("Next", key="next_tab2", on_click=next_verb_tab2)
 
             # Tab 3: Practice Past and Past Participle
             with tab3:
