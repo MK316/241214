@@ -21,13 +21,14 @@ def green_button(label, url):
     st.markdown(button_html, unsafe_allow_html=True)
 
 # Add tabs
-tab1, tab2, tab3, tab4, tab5, tab6 = st.tabs(["📍App1", "📍App2", "📍App3", "📍App4", "📍App5", "📍App6"])
+tab1, tab2, tab3, tab4, tab5, tab6 = st.tabs(["📍Pronunciation-Checker", "📍App2", "📍App3", "📍App4", "📍App5", "📍App6"])
 
 # Tab 1: Python
 with tab1:
-    st.header("1: Python")
-    st.write("Python is a versatile programming language known for its simplicity and readability. It's widely used for web development, data analysis, artificial intelligence, and more.")
-    green_button("Learn More About Python", "https://www.python.org")
+    st.header("1: PronunciationChecker")
+    st.write("")
+    green_button("Learn More About Python", "https://mk-316-pronunciationfeedback.hf.space/")
+
 
 
 # Tab 2: Coding
