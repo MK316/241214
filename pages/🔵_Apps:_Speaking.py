@@ -27,7 +27,7 @@ tab1, tab2, tab3, tab4, tab5, tab6 = st.tabs(["📍Pronunciation-Checker", "📍
 with tab1:
     st.header("1: PronunciationChecker")
     st.write("")
-    green_button("Learn More About Python", "https://mk-316-pronunciationfeedback.hf.space/")
+    green_button("Clic to open the APP", "https://mk-316-pronunciationfeedback.hf.space/")
 
 
 
