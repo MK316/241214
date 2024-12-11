@@ -6,7 +6,7 @@ import os
 st.markdown("""
     <style>
     .stSelectbox div[data-baseweb="select"] {
-        margin-top: -60px;  /* Adjust this value to align with the buttons */
+        margin-top: -30px;  /* Adjust this value to align with the buttons */
     }
     </style>
     """, unsafe_allow_html=True)
@@ -26,7 +26,7 @@ def display_image():
     image = Image.open(slide_path)
     
     # Set your desired width for resizing
-    desired_width = 800  # Adjust this value as needed
+    desired_width = 1200  # Adjust this value as needed
     aspect_ratio = image.height / image.width
     new_height = int(desired_width * aspect_ratio)
     resized_image = image.resize((desired_width, new_height))
