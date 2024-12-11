@@ -39,7 +39,7 @@ tab1, tab2 = st.tabs(["🌱 Slides", "🌱 Videos"])
 with tab1:
 
     # Arrange 'Start', 'Previous', 'Next', and 'Slide Selector' in a single row
-    col1, col2, col3, col4 = st.columns([1, 1, 1, 2])
+    col1, col2, col3, col4 = st.columns([0.5, 0.5, 0.5, 1])
     
     with col1:
         if st.button("⛳", key="start", help="Reset to the first slide"):
