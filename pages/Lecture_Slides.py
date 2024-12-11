@@ -42,18 +42,18 @@ with tab1:
     col1, col2, col3, col4 = st.columns([1, 1, 1, 2])
     
     with col1:
-        if st.button("⛳ Start", key="start", help="Reset to the first slide"):
+        if st.button("⛳", key="start", help="Reset to the first slide"):
             st.session_state.slide_index = 0
 
     with col2:
-        if st.button("◀️ Previous", key="previous", help="Go back to the previous slide"):
+        if st.button("◀️", key="previous", help="Go back to the previous slide"):
             if st.session_state.slide_index > 0:
                 st.session_state.slide_index -= 1
             else:
                 st.warning("This is the first slide.")
 
     with col3:
-        if st.button("▶️ Next", key="next", help="Go to the next slide"):
+        if st.button("▶️", key="next", help="Go to the next slide"):
             if st.session_state.slide_index < num_slides - 1:
                 st.session_state.slide_index += 1
             else:
