@@ -20,26 +20,24 @@ num_slides = len(slide_files)
 if "slide_index" not in st.session_state:
     st.session_state.slide_index = 0  # Start with the first slide
 
+# Function to load and display the image based on the current index with resizing
 def display_image():
     slide_path = os.path.join(slides_path, slide_files[st.session_state.slide_index])
     image = Image.open(slide_path)
-    
-    # Set your desired width for resizing
-    desired_width = 800  # This is your target display width
+    desired_width = 800  # Adjust this value as needed
     aspect_ratio = image.height / image.width
     new_height = int(desired_width * aspect_ratio)
     resized_image = image.resize((desired_width, new_height))
-
-    # Ensure the image displays at the desired width
-    st.image(resized_image, caption=f"Slide {st.session_state.slide_index + 1} of {num_slides}", width=desired_width)
-
+    st.image(resized_image, caption=f"Slide {st.session_state.slide_index + 1} of {num_slides}")
 
 # Create tabs
 tab1, tab2 = st.tabs(["🌱 Slides", "🌱 Videos"])
 
 with tab1:
+    # Display the image first
+    display_image()
 
-    # Arrange 'Start', 'Previous', 'Next', and 'Slide Selector' in a single row
+    # Arrange 'Start', 'Previous', 'Next', and 'Slide Selector' in a single row below the image
     col1, col2, col3, col4 = st.columns([1, 1, 1, 2])
     
     with col1:
@@ -70,9 +68,6 @@ with tab1:
         selected_slide_index = int(selected_slide.split()[-1]) - 1
         if selected_slide_index != st.session_state.slide_index:
             st.session_state.slide_index = selected_slide_index
-
-    # Display the image
-    display_image()
 
 with tab2:
     st.write("This is the content for the second tab.")
