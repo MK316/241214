@@ -113,7 +113,7 @@ def phonetics_apps_page():
                 if audio_file_path:
                     with open(audio_file_path, "rb") as audio_file:
                         st.audio(audio_file, format='audio/mp3')
-    with tab5:
+    with tab4:
         st.header("Generate your own melody")
         st.caption("Using this app, the user can generate a downloadable audio file.")
         st.caption("The sequence 'do, re, mi, fa...' is called the solfege system, or solfège, a method used to teach pitch and sight singing in music. Each syllable corresponds to a note on a musical scale, allowing for easy vocalization and learning of musical notation.")
@@ -121,7 +121,7 @@ def phonetics_apps_page():
         button_html = f"<a href='{appurl}' target='_blank'><button style='color: black; background-color: #CCFF99; border: none; padding: 10px 20px; text-align: center; display: inline-block; font-size: 16px;'>Open Melody App</button></a>"
         st.markdown(button_html, unsafe_allow_html=True)
 
-        with tabs[3]:
+    with tab5:
         st.subheader("Generate a Complex Wave")
         col1, col2 = st.columns(2)
         amp1 = col1.number_input('Amplitude of Wave 1:', value=1.0, format="%.2f")
