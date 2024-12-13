@@ -87,4 +87,3 @@ with tab2:
     
     video_url2 = "https://youtu.be/mvGOeLSXqdo?si=yH253tTtuQJBvVf1"
     st.video(video_url2)
-
