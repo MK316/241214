@@ -4,7 +4,7 @@ import streamlit as st
 st.title("Sample Lesson Plans by Students")
 
 # Introduction or description
-st.write("Explore a collection of English class lesson plans created by students. Click on any of the links below to view the details in a new tab.")
+st.write("Explore a collection of English class lesson plans created by students. Click on any of the links below to view the details in a new tab. (학생들이 만든 영어 수업 계획 예시입니다. 아래 링크 중 하나를 클릭하면 새 탭에서 세부 정보를 볼 수 있습니다.)")
 
 # List of lesson plans with links to open in a new tab
 lesson_plans = {
