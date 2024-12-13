@@ -25,6 +25,6 @@ img_url2 = "https://github.com/MK316/241214/raw/main/image/KeywordCloud_231129.p
 # Updated to use the new parameter
 st.image(img_url2, use_container_width=True)
 st.markdown("### 🌱 My Digital Literacy Education keywords:")
-st.markdown("1. **독립적인 디지털 역량(Independent Digital Competency)**")
+st.markdown("1. **독립적인 디지털 역량 (Independent Digital Competency)**")
 st.markdown("2. **교과목 기반 디지털 리터러시 교육 (Content-empowered Digital Literacy)**")
 st.markdown("3. **자립적 디지털 교육 도구 활용 (Self-sufficient Teaching Tools)**")
