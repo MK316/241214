@@ -87,7 +87,4 @@ with tab2:
     
     video_url2 = "https://youtu.be/mvGOeLSXqdo?si=yH253tTtuQJBvVf1"
     st.video(video_url2)
-with tab3:
-    st.header("Download English Class PDF Material")
-    pdf_url = "https://drive.google.com/file/d/1S3cmhfYTfEaiF6CxzTOeNad7YCOzjOY0/view?usp=sharing"
-    st.markdown(f"[Download PDF](https://drive.google.com/file/d/1S3cmhfYTfEaiF6CxzTOeNad7YCOzjOY0/view?usp=sharing){' '}", unsafe_allow_html=True)
+
