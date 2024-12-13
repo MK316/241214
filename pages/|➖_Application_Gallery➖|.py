@@ -3,6 +3,20 @@ from pydub import AudioSegment
 import io
 from gtts import gTTS  # Google Text-to-Speech
 import tempfile
+import numpy as np
+from scipy.io.wavfile import write
+from io import BytesIO
+import librosa
+import librosa.display
+import matplotlib.pyplot as plt
+import plotly.graph_objects as go
+
+
+
+
+def generate_wave(amplitude, frequency, time):
+    """Generate sinusoidal wave data based on amplitude, frequency, and time."""
+    return amplitude * np.sin(2 * np.pi * frequency * time)
 
 # Convert MP3 to WAV function
 def convert_to_wav(audio_file):
@@ -99,13 +113,51 @@ def phonetics_apps_page():
                 if audio_file_path:
                     with open(audio_file_path, "rb") as audio_file:
                         st.audio(audio_file, format='audio/mp3')
-    with tab4:
+    with tab5:
         st.header("Generate your own melody")
         st.caption("Using this app, the user can generate a downloadable audio file.")
         st.caption("The sequence 'do, re, mi, fa...' is called the solfege system, or solfège, a method used to teach pitch and sight singing in music. Each syllable corresponds to a note on a musical scale, allowing for easy vocalization and learning of musical notation.")
         appurl = "https://melody-play.streamlit.app/"
         button_html = f"<a href='{appurl}' target='_blank'><button style='color: black; background-color: #CCFF99; border: none; padding: 10px 20px; text-align: center; display: inline-block; font-size: 16px;'>Open Melody App</button></a>"
         st.markdown(button_html, unsafe_allow_html=True)
+
+        with tabs[3]:
+        st.subheader("Generate a Complex Wave")
+        col1, col2 = st.columns(2)
+        amp1 = col1.number_input('Amplitude of Wave 1:', value=1.0, format="%.2f")
+        freq1 = col2.number_input('Frequency of Wave 1:', value=1.0, format="%.2f")
+        
+        amp2 = col1.number_input('Amplitude of Wave 2:', value=1.0, format="%.2f")
+        freq2 = col2.number_input('Frequency of Wave 2:', value=1.0, format="%.2f")
+        
+        amp3 = col1.number_input('Amplitude of Wave 3:', value=1.0, format="%.2f")
+        freq3 = col2.number_input('Frequency of Wave 3:', value=1.0, format="%.2f")
+        
+        t_max = st.slider("Select max time for the x-axis:", min_value=1, max_value=10, value=5, step=1)
+        
+        if st.button('Generate a complex wave'):
+            time = np.linspace(0, t_max, 1000)
+            wave1 = generate_wave(amp1, freq1, time)
+            wave2 = generate_wave(amp2, freq2, time)
+            wave3 = generate_wave(amp3, freq3, time)
+            complex_wave = wave1 + wave2 + wave3
+
+            # add dash='dash' for each if you want
+            fig = go.Figure()
+            fig.add_trace(go.Scatter(x=time, y=wave1, mode='lines', name='Wave 1', line=dict(color='#f5c542')))
+            fig.add_trace(go.Scatter(x=time, y=wave2, mode='lines', name='Wave 2', line=dict(color='#69f542')))
+            fig.add_trace(go.Scatter(x=time, y=wave3, mode='lines', name='Wave 3', line=dict(color='#42d4f5')))  # 'light blue' should be 'lightblue'
+            fig.add_trace(go.Scatter(x=time, y=complex_wave, mode='lines', name='Complex Wave', line=dict(color='#4e535c', width=4)))
+
+
+            fig.update_layout(
+                title="Complex Wave Formation",
+                xaxis_title="Time",
+                yaxis_title="Amplitude",
+                xaxis_rangeslider_visible=True
+            )
+            st.plotly_chart(fig, use_container_width=True)
+
 
 # Run the phonetics apps page
 phonetics_apps_page()
