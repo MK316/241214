@@ -74,4 +74,12 @@ with tab1:
     display_image()
 
 with tab2:
-    st.write("This is the content for the second tab.")
+    st.write("SORA by OpenAI (Dec. 2024).")
+    
+    # URL of the YouTube video
+    video_url = 'https://youtu.be/Gk4-bm7XImg?si=QmCL2K0omouypmg5'
+    
+    # Display the YouTube video in the Streamlit app
+    st.video(video_url)
+
+
