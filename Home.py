@@ -12,4 +12,4 @@ img_url = "https://github.com/MK316/241214/raw/main/image/bg-02.png"
 st.image(img_url, caption="\"In preparation (Last updated: Nov.24)\"", use_container_width=True)
 
 img_QR = "https://github.com/MK316/241214/raw/main/image/241214QR.jpg"
-st.image(img_QR, caption="QR to HERE :-)", width=200)
+st.image(img_QR, caption="QR to HERE :-)", width=100)
