@@ -1,7 +1,7 @@
 import streamlit as st
 
 # Title for the page
-st.title("Lesson Plans for English Classes by Students")
+st.title("Sample Lesson Plans by Students")
 
 # Introduction or description
 st.write("Explore a collection of English class lesson plans created by students. Click on any of the links below to view the details in a new tab.")
