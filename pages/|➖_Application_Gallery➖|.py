@@ -59,7 +59,7 @@ def text_to_speech(text, language):
 
 # Phonetics Apps Page
 def phonetics_apps_page():
-    st.title('🐾 Play sound Apps')
+    st.title('🐾 Sound Apps')
     st.write('Applications used to teach Phonetics.')
     st.markdown("""
     Here is a selection of audio-related applications specifically designed to enhance phonetics learning. These tools cater to various needs, such as playing audio files, converting file formats, and utilizing Text-to-Speech technology. They offer interactive exercises to improve pronunciation, develop listening skills, and heighten phonetic awareness, making them invaluable resources for learners and educators alike.
