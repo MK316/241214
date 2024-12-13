@@ -24,7 +24,7 @@ st.markdown(buttons_html, unsafe_allow_html=True)
 img_url2 = "https://github.com/MK316/241214/raw/main/image/KeywordCloud_231129.png"
 # Updated to use the new parameter
 st.image(img_url2, use_container_width=True)
-st.markdown("+ **My Digital Literacy Education keywords:**")
+st.markdown("### 🌱 My Digital Literacy Education keywords:**")
 st.markdown("1. **Independent Digital Competency**")
-st.markdown("2. **Self-sufficient Teaching Tools**")
-st.markdown("3. **Content-empowered Digital Literacy**")
+st.markdown("2. **Content-empowered Digital Literacy**")
+st.markdown("3. **Self-sufficient Teaching Tools**")
