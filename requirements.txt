@@ -10,3 +10,6 @@ qrcode
 Pillow
 gtts
 pydub
+scipy
+librosa
+plotly
