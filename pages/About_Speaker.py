@@ -20,8 +20,7 @@ buttons_html = """
 
 # Render the HTML with the buttons in Streamlit
 st.markdown(buttons_html, unsafe_allow_html=True)
-st.markdown("+ Interested in digital literacy training for prospective English teachers")
-st.caption("Digital Literacy & English Education (Spring 2023, Spring 2024)")
+
 img_url2 = "https://github.com/MK316/241214/raw/main/image/KeywordCloud_231129.png"
 # Updated to use the new parameter
 st.image(img_url2, use_container_width=True)
