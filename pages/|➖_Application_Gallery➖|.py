@@ -136,20 +136,19 @@ def phonetics_apps_page():
         t_max = st.slider("Select max time for the x-axis:", min_value=1, max_value=10, value=5, step=1)
         
         if st.button('Generate a complex wave'):
-            time = np.linspace(0, t_max, 1000)
+            time = np.linspace(0, t_max, 1000)  # Generates time values
             wave1 = generate_wave(amp1, freq1, time)
             wave2 = generate_wave(amp2, freq2, time)
             wave3 = generate_wave(amp3, freq3, time)
             complex_wave = wave1 + wave2 + wave3
-
-            # add dash='dash' for each if you want
+    
+            # Plotly graph to show the waves
             fig = go.Figure()
-            fig.add_trace(go.Scatter(x=time, y=wave1, mode='lines', name='Wave 1', line=dict(color='#f5c542')))
-            fig.add_trace(go.Scatter(x=time, y=wave2, mode='lines', name='Wave 2', line=dict(color='#69f542')))
-            fig.add_trace(go.Scatter(x=time, y=wave3, mode='lines', name='Wave 3', line=dict(color='#42d4f5')))  # 'light blue' should be 'lightblue'
-            fig.add_trace(go.Scatter(x=time, y=complex_wave, mode='lines', name='Complex Wave', line=dict(color='#4e535c', width=4)))
-
-
+            fig.add_trace(go.Scatter(x=time, y=wave1, mode='lines', name='Wave 1'))
+            fig.add_trace(go.Scatter(x=time, y=wave2, mode='lines', name='Wave 2'))
+            fig.add_trace(go.Scatter(x=time, y=wave3, mode='lines', name='Wave 3'))
+            fig.add_trace(go.Scatter(x=time, y=complex_wave, mode='lines', name='Complex Wave', line=dict(width=4)))
+    
             fig.update_layout(
                 title="Complex Wave Formation",
                 xaxis_title="Time",
