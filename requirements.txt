@@ -13,3 +13,5 @@ pydub
 scipy
 librosa
 plotly
+gTTS
+
