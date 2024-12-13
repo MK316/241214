@@ -82,4 +82,7 @@ with tab2:
     # Display the YouTube video in the Streamlit app
     st.video(video_url)
 
-
+    # Second video
+    st.caption("AI video example")
+    video_url2 = "https://youtu.be/mvGOeLSXqdo?si=yH253tTtuQJBvVf1"
+    st.vedeo(video_url2)
