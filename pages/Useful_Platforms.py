@@ -21,7 +21,7 @@ def green_button(label, url):
     st.markdown(button_html, unsafe_allow_html=True)
 
 # Add tabs
-tab1, tab2, tab3, tab4, tab5, tab6 = st.tabs(["📍Python", "📍Coding", "📍Github", "📍Gradio", "📍Huggingface", "📍Streamlit"])
+tab1, tab2, tab3, tab4, tab5, tab6, tab7 = st.tabs(["📍Python", "📍Coding", "📍Github", "📍Gradio", "📍Huggingface", "📍Streamlit", "📍Other digital tools"])
 
 # Tab 1: Python
 with tab1:
@@ -60,3 +60,27 @@ with tab6:
     st.header("6: Streamlit")
     st.write("Streamlit is a Python library that enables you to build interactive web applications for data science and machine learning.")
     green_button("Visit Streamlit", "https://streamlit.io")
+
+# Tab 7: Others
+with tab7:
+    st.header("7: Digital Tools for Education")
+    st.markdown("""
+    Below is a selection of digital tools that can enhance teaching and learning experiences:
+
+    - **[Google Classroom](https://classroom.google.com)**  
+      A free service for schools, non-profits, and anyone with a personal Google account, Google Classroom makes it easy for learners and instructors to connect—inside and outside of schools.
+
+    - **[Kahoot!](https://kahoot.com)**  
+      Kahoot! is a game-based learning platform used as educational technology in schools and other educational institutions. Its learning games, "Kahoots", are user-generated multiple-choice quizzes that can be accessed via a web browser or the Kahoot app.
+
+    - **[Zoom for Education](https://zoom.us/education)**  
+      Zoom helps universities and schools improve student outcomes with secure video communication services for hybrid classrooms, office hours, administrative meetings, and more.
+
+    - **[Canva for Education](https://www.canva.com/education/)**
+      Empower your students to learn and express themselves in incredible ways using this intuitive design tool, which is freely available for K-12 teachers and their students.
+
+    - **[Edmodo](https://new.edmodo.com)**  
+      Edmodo is an educational technology company offering a communication, collaboration, and coaching platform to K-12 schools and teachers. The network enables teachers to share content, distribute quizzes, assignments, and manage communication with students, colleagues, and parents.
+
+    Each tool offers unique features that can be utilized in different educational settings, helping to facilitate a more interactive and engaging learning environment.
+    """, unsafe_allow_html=True)
