@@ -21,7 +21,7 @@ def green_button(label, url):
     st.markdown(button_html, unsafe_allow_html=True)
 
 # Add tabs
-tab1, tab2, tab3= st.tabs(["📍Pronunciation-Checker", "📍Yes-no question", "📍Foreign accent"])
+tab1, tab2, tab3, tab4= st.tabs(["📍Pronunciation-Checker", "📍Yes-no question", "📍Foreign accent", "📍Borrowing words"])
 
 # Tab 1: Python
 with tab1:
@@ -41,8 +41,12 @@ with tab2:
 # Tab 3: Github
 with tab3:
     st.header("3: Foreign accents")
-    st.write("Commonly used English words in Korean vs. American accents")
+    st.write("English words with foreign accents")
     green_button("Click to open the APP", "https://MK-316-foreignaccent.hf.space")
 
-
+# Tab 4: Github
+with tab4:
+    st.header("4: Borrowing words")
+    st.write("Commonly used English words in Korean vs. American accents")
+    green_button("Click to open the APP", "https://MK-316-korean-english.hf.space")
 
