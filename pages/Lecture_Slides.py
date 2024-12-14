@@ -87,3 +87,8 @@ with tab2:
     
     video_url2 = "https://youtu.be/mvGOeLSXqdo?si=yH253tTtuQJBvVf1"
     st.video(video_url2)
+
+    # Third video
+    st.caption("Music generated with SUNO ai")
+    video_url3 = "https://youtube.com/shorts/_cO8AeRjL88?feature=share"
+    st.video(video_url3)
