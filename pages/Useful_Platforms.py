@@ -91,7 +91,7 @@ with tab7:
     - **[AhaSlides](https://ahaslides.com)**  
       An interactive presentation software that engages students during lessons with real-time quizzes, polls, and slides, promoting active learning and participation.
 
-    - **[Skybox AI](https://skyboxai.com)**  
+    - **[Skybox AI](https://skybox.blockadelabs.com/)**  
       A cutting-edge tool that leverages artificial intelligence to provide detailed analytics and predictions on student performance, helping educators tailor their teaching strategies.
 
     Each tool offers unique features that can be utilized in different educational settings, helping to facilitate a more interactive and engaging learning environment.
