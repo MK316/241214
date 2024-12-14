@@ -79,8 +79,20 @@ with tab7:
     - **[Canva for Education](https://www.canva.com/education/)**
       Empower your students to learn and express themselves in incredible ways using this intuitive design tool, which is freely available for K-12 teachers and their students.
 
-    - **[Edmodo](https://new.edmodo.com)**  
-      Edmodo is an educational technology company offering a communication, collaboration, and coaching platform to K-12 schools and teachers. The network enables teachers to share content, distribute quizzes, assignments, and manage communication with students, colleagues, and parents.
+    - **[Speechnotes](https://speechnotes.co)**  
+      A reliable voice-to-text app that allows educators and students to convert spoken language into text easily, enhancing accessibility and facilitating note-taking.
+
+    - **[SUNO AI](https://suno.ai)**  
+      An AI-powered tool that enhances listening and comprehension skills through customized audio content, making learning more interactive and personalized.
+
+    - **[ElevenLabs](https://elevenlabs.io)**  
+      Utilizes advanced voice synthesis technology to create realistic audio from text, allowing teachers to produce high-quality educational materials effortlessly.
+
+    - **[AhaSlides](https://ahaslides.com)**  
+      An interactive presentation software that engages students during lessons with real-time quizzes, polls, and slides, promoting active learning and participation.
+
+    - **[Skybox AI](https://skyboxai.com)**  
+      A cutting-edge tool that leverages artificial intelligence to provide detailed analytics and predictions on student performance, helping educators tailor their teaching strategies.
 
     Each tool offers unique features that can be utilized in different educational settings, helping to facilitate a more interactive and engaging learning environment.
     """, unsafe_allow_html=True)
