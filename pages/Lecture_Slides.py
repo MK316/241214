@@ -85,7 +85,7 @@ with tab2:
     # Second video
     st.caption("AI video example")
     
-    video_url2 = "https://youtu.be/mvGOeLSXqdo?si=yH253tTtuQJBvVf1"
+    video_url2 = "https://youtu.be/_cO8AeRjL88?si=Jv75Kv-ppBsj_v1l"
     st.video(video_url2)
 
     # Third video
