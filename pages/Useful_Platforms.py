@@ -93,6 +93,8 @@ with tab7:
 
     - **[Skybox AI](https://skybox.blockadelabs.com/)**  
       A cutting-edge tool that leverages artificial intelligence to provide detailed analytics and predictions on student performance, helping educators tailor their teaching strategies.
-
+    - **[ZEP](https://zep.us/en)**  
+      Zep integrates gamification into educational processes to enhance engagement and motivation among learners. Its platform offers interactive and dynamic learning experiences that aim to improve understanding and retention.
+    
     Each tool offers unique features that can be utilized in different educational settings, helping to facilitate a more interactive and engaging learning environment.
     """, unsafe_allow_html=True)
